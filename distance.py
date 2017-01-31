@@ -27,12 +27,12 @@ for i in range(countryNo):
         fi1 = countries[i][4]
         fi2 = countries[j][4]
         dist = math.acos(math.sin(fi1)*math.sin(fi2) + math.cos(fi1)*math.cos(fi2)*math.cos(deltaLong))
-        print k, countries[i][1], countries[j][1], dist*R
-        # distance[i][j] = k
+        # print k, countries[i][1], countries[j][1], dist*R
+        distance[i][j] = dist*R
         k+=1
 
 
-# Set population
+### Set population
 popNo = 10
 population = []
 for i in range(popNo):
@@ -42,7 +42,11 @@ for i in range(popNo):
     # print population[-1]
 
 
-# Set heuristic individuals
-# Fitness function
-# Choose parents
-# Davis' Crossover (O1)
+### Set heuristic individuals
+# Pick one guy
+# Get closest neighbour
+# Get closest neighbour of the closes neighbour
+# ...
+### Fitness function
+### Choose parents
+### Davis' Crossover (O1)
