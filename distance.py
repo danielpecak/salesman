@@ -12,7 +12,8 @@ inf = 10000000.
 
 # System parameters:
 popNo = 10
-heurNo = 2
+heurNo = 10
+countryNormalizer = 6
 
 # Load the CSV file with Countries and coordinates
 countries = []
@@ -24,7 +25,7 @@ with open('south-america.csv','rb') as file:
             countries.append(row[0:2]+map(float,row[2:]))
 
 # Calculate the distance between countries
-countryNo = len(countries)-6
+countryNo = len(countries)-countryNormalizer
 print "Country number: ", countryNo
 distance = [[inf for x in range(countryNo)] for y in range(countryNo)]
 k=1
