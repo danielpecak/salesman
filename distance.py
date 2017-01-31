@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import math
+import random
 import csv
 
 # Constants:
@@ -29,3 +30,19 @@ for i in range(countryNo):
         print k, countries[i][1], countries[j][1], dist*R
         # distance[i][j] = k
         k+=1
+
+
+# Set population
+popNo = 10
+population = []
+for i in range(popNo):
+    basicPerm = range(countryNo)
+    random.shuffle(basicPerm)
+    population.append(basicPerm)
+    # print population[-1]
+
+
+# Set heuristic individuals
+# Fitness function
+# Choose parents
+# Davis' Crossover (O1)
