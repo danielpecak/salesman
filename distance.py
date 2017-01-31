@@ -12,7 +12,7 @@ inf = 10000000.
 
 # System parameters:
 popNo = 10
-heurNo = 4
+heurNo = 2
 
 # Load the CSV file with Countries and coordinates
 countries = []
@@ -80,6 +80,17 @@ for ii in range(heurNo):
             tempdist[oldGuy][jj] = inf
             tempdist[jj][oldGuy] = inf
     heuristicPop.append(heur)
+
+
 ### Fitness function
+def fitness(ch):
+    "Function calculates the fitness of a chromosome 'ch'"
+    total = 0.
+    # print ch
+    for c in range(countryNo-1):
+        total += distance[ch[c]][ch[c+1]]
+        # print ch[c],ch[c+1], distance[ch[c]][ch[c+1]]
+    return total
+
 ### Choose parents
 ### Davis' Crossover (O1)
