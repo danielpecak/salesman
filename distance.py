@@ -92,7 +92,7 @@ def fitness(ch):
     for c in range(countryNo-1):
         total += distance[ch[c]][ch[c+1]]
         # print ch[c],ch[c+1], distance[ch[c]][ch[c+1]]
-    return total
+    return 10000./total
 
 ### Brute-force test
 bruteList = list(itertools.permutations(range(countryNo), countryNo))
