@@ -1,0 +1,14 @@
+* skrypt do przeliczenia koordynatów na odległości
+
+* wybrać amerykę południową
+* losowanie permutacji (wybieranie po jednym elemencie ze zbioru)
+* wybranie kilku heurystycznych propozycji (losujemy element - szukamy najbliższego, szukamy kolejnego najbliższego itd.)
+* funkcja licząca odległości pomiędzy - tablica odległości
+
+* fitness function
+* parent selection
+* crossover
+* mutation
+
+
+* rysowanie po mapie SVG
