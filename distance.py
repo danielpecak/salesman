@@ -4,6 +4,7 @@ import random
 import csv
 import sys
 import copy
+import itertools
 
 # Constants:
 R = 6371. # mean radius of the Earth that minimalizes the fact that the Earth
@@ -93,5 +94,11 @@ def fitness(ch):
         # print ch[c],ch[c+1], distance[ch[c]][ch[c+1]]
     return total
 
+### Brute-force test
+bruteList = list(itertools.permutations(range(countryNo), countryNo))
+# for i in bruteList:
+    # print i, fitness(i)
+print "MIN: ", min([fitness(i) for i in bruteList])
+print "MAX: ", max([fitness(i) for i in bruteList])
 ### Choose parents
 ### Davis' Crossover (O1)
