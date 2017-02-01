@@ -100,5 +100,30 @@ bruteList = list(itertools.permutations(range(countryNo), countryNo))
     # print i, fitness(i)
 print "MIN: ", min([fitness(i) for i in bruteList])
 print "MAX: ", max([fitness(i) for i in bruteList])
+
 ### Choose parents
+def rouletteWheelSelection(population):
+    "Chooses parent from the population: calculating the fitness, sorting population by the fitness and weighting by the fitness it randomly chooses a parent."
+    # Sort shit out
+    a=zip(*sorted(zip(fitnesses,population),reverse=True))[1]
+    fitnesses.sort(reverse=True)
+    total = sum(fitnesses)
+    lotteryTicket = random.uniform(0,total)
+    pick = 0.
+    for i in range(len(population)):
+        pick += fitnesses[i]
+        if pick > lotteryTicket:
+            return population[i]
+
+# ### CHECK THE WHEEL
+# N=1000000
+# stat = [0 for i in range(len(population))]
+# for i in range(N):
+#     item = rouletteWheelSelection(population)
+#     # print i, item, population.index(item), len(population)
+#     stat[population.index(item)] += 1
+#
+# for i in range(len(population)):
+#     print i, 100*fitnesses[i]/sum(fitnesses), 100.*stat[i]/N
+
 ### Davis' Crossover (O1)
