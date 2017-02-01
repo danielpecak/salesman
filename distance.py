@@ -21,7 +21,7 @@ countries = []
 with open('south-america.csv','rb') as file:
     reader = csv.reader(file,delimiter=';')
     for row in reader:
-        # row=(0-Country; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)
+# row=(0-Country; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)
         if row[0] != 'Country':
             countries.append(row[0:2]+map(float,row[2:]))
 
@@ -48,7 +48,6 @@ for i in range(popNo):
     basicPerm = range(countryNo)
     random.shuffle(basicPerm)
     population.append(basicPerm)
-    # print population[-1]
 
 
 ### Set heuristic individuals
@@ -57,48 +56,34 @@ for ii in range(heurNo):
     # Copy distance list
     tempdist = copy.deepcopy(distance)
     # Pick one guy
-    # print ii,"################## Runda 1"
     basicPerm = range(countryNo)
     heur = []
-    # print basicPerm
     luckyGuy = random.sample(basicPerm,1)[0]
-    # print luckyGuy
     basicPerm.remove(luckyGuy)
     heur.append(luckyGuy)
-    # print basicPerm
     # Get closest neighbour
     for i in range(countryNo-1):
-        # print ii,"################## Runda", i+2
-        # print tempdist[luckyGuy][:]
         minval = min(tempdist[luckyGuy][:])
-        # print minval
         oldGuy = luckyGuy
         luckyGuy = tempdist[luckyGuy].index(minval)
-        # print luckyGuy
         basicPerm.remove(luckyGuy)
         heur.append(luckyGuy)
-        # print basicPerm, heur
         for jj in range(countryNo):
             tempdist[oldGuy][jj] = inf
             tempdist[jj][oldGuy] = inf
     heuristicPop.append(heur)
 
 
-
 ### Fitness function
 def fitness(ch):
     "Function calculates the fitness of a chromosome 'ch'"
     total = 0.
-    # print ch
     for c in range(countryNo-1):
         total += distance[ch[c]][ch[c+1]]
-        # print ch[c],ch[c+1], distance[ch[c]][ch[c+1]]
     return 10000./total
 
 ### Brute-force test
 bruteList = list(itertools.permutations(range(countryNo), countryNo))
-# for i in bruteList:
-    # print i, fitness(i)
 print "MIN: ", min([fitness(i) for i in bruteList])
 print "MAX: ", max([fitness(i) for i in bruteList])
 
@@ -116,18 +101,8 @@ def rouletteWheelSelection(population):
         if pick > lotteryTicket:
             return population[i]
 
-# ### CHECK THE WHEEL
-# N=1000000
-# stat = [0 for i in range(len(population))]
-# for i in range(N):
-#     item = rouletteWheelSelection(population)
-#     # print i, item, population.index(item), len(population)
-#     stat[population.index(item)] += 1
-#
-# for i in range(len(population)):
-#     print i, 100*fitnesses[i]/sum(fitnesses), 100.*stat[i]/N
+### Davis' Order Crossover (O1)
 
-### Davis' Crossover (O1)
 ### MUTATION
 def ScrambleMutation(item2):
     "Mutation that shuffles randomly the genes."
