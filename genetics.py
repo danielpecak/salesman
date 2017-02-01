@@ -58,11 +58,8 @@ def CrossoverOX1(p1,p2):
 ######    INDIVIDUAL SCALE    ######
 ###################################
 ### Choose parents
-def rouletteWheelSelection(population):
+def rouletteWheelSelection(population,fitnesses):
     "Chooses parent from the population: calculating the fitness, sorting population by the fitness and weighting by the fitness it randomly chooses a parent."
-    # Sort shit out
-    a=zip(*sorted(zip(fitnesses,population),reverse=True))[1]
-    fitnesses.sort(reverse=True)
     total = sum(fitnesses)
     lotteryTicket = random.uniform(0,total)
     pick = 0.
@@ -122,3 +119,4 @@ def getHeuristicSolutions(distance,countryNo,heurNo):
                 tempdist[oldGuy][jj] = inf
                 tempdist[jj][oldGuy] = inf
         heuristicPop.append(heur)
+    return heuristicPop
