@@ -45,11 +45,7 @@ for i in range(countryNo):
 
 
 ### Set population
-population = []
-for i in range(popNo):
-    basicPerm = range(countryNo)
-    random.shuffle(basicPerm)
-    population.append(basicPerm)
+population = genetics.growPopulation(popNo,countryNo)
 
 
 ### Set heuristic individuals

@@ -80,3 +80,12 @@ def bruteForcePopulation(N):
     "Generetes a list of all permutations of the length N. It's factorial, so be carefull!"
     print "a"
     return list(itertools.permutations(range(N), N))
+
+def growPopulation(N,M):
+    "Grow population of N individuals, everyone with M genes. "
+    population = []
+    for i in range(N):
+        basicPerm = range(M)
+        random.shuffle(basicPerm)
+        population.append(basicPerm)
+    return population
