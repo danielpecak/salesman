@@ -23,7 +23,8 @@ distance = cities.calcDistances(countries)
 ### Set population & heuristics
 population = genetics.growPopulation(popNo,countryNo)
 heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
-population.append(heuristicPop[0])
+for i in heuristicPop:
+    population.append(i)
 
 
 print "Population: ", len(population)
