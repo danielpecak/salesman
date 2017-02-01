@@ -84,6 +84,7 @@ for ii in range(heurNo):
     heuristicPop.append(heur)
 
 
+
 ### Fitness function
 def fitness(ch):
     "Function calculates the fitness of a chromosome 'ch'"
@@ -127,3 +128,27 @@ def rouletteWheelSelection(population):
 #     print i, 100*fitnesses[i]/sum(fitnesses), 100.*stat[i]/N
 
 ### Davis' Crossover (O1)
+### MUTATION
+def ScrambleMutation(item2):
+    "Mutation that shuffles randomly the genes."
+    item=copy.deepcopy(item2)
+    [start,end] = sorted(random.sample(range(countryNo+1),2))
+    print start, end
+    shuffle_slice(item,start,end)
+    return item
+
+def InversionMutation(item2):
+    item=copy.deepcopy(item2)
+    "Mutation that inverses the gene sequence."
+    [start,end] = sorted(random.sample(range(countryNo+1),2))
+    print start, end
+    item[start:end] = reversed(item[start:end])
+    return item
+
+def shuffle_slice(a, start, stop):
+    i = start
+    while (i < stop-1):
+        idx = random.randrange(i, stop)
+        a[i], a[idx] = a[idx], a[i]
+        i += 1
+

@@ -6,9 +6,9 @@ DONE * wybranie kilku heurystycznych propozycji (losujemy element - szukamy najb
 DONE * funkcja licząca odległości pomiędzy - tablica odległości
 
 DONE * fitness function
-* parent selection
+DONE * parent selection
 * crossover
-* mutation
+DONE * mutation
 
 
 * rysowanie po mapie SVG
