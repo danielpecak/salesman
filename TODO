@@ -1,13 +1,12 @@
 DONE * skrypt do przeliczenia koordynatów na odległości
-
 DONE * wybrać amerykę południową
 DONE * losowanie permutacji (wybieranie po jednym elemencie ze zbioru)
-DONE * wybranie kilku heurystycznych propozycji (losujemy element - szukamy najbliższego, szukamy kolejnego najbliższego itd.)
+DONE * wybranie kilku heurystycznych propozycji (losujemy
+       element - szukamy najbliższego, szukamy kolejnego najbliższego itd.)
 DONE * funkcja licząca odległości pomiędzy - tablica odległości
-
 DONE * fitness function
 DONE * parent selection
-* crossover
+DONE * crossover
 DONE * mutation
 
 
