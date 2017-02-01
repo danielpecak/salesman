@@ -13,7 +13,7 @@
 </ul>
 
 <h2>What is my problem?</h2>
-<p>I love to travel. I've visited many countries in Europe and I happened to be in southwest USA, I've road-tripped along Chile, I've seen Japan - plan to see a lot more including New Zealand. But the time is finite and the question is: how to travel in the optimal way to see everything, instead of bouncing around.</p>
+<p>I love to travel. I've visited many countries in Europe and I happened to be in the southwest USA, I've road-tripped along Chile, I've seen Japan - plan to see a lot more including New Zealand. But the time is finite and the question is: how to travel in the optimal way to see everything, instead of bouncing around.</p>
 <p>My problem is the following: given a set of N capital cities (of a given continent, continents or the whole world) I want to find the shortest path that covers all capital cities.</p>
 
 <h2>Technical details of the project</h2>
