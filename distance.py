@@ -102,6 +102,22 @@ def rouletteWheelSelection(population):
             return population[i]
 
 ### Davis' Order Crossover (O1)
+def OX1(p1,p2):
+    "Applies so called Davis' Order Crossover OX1 for permutation based crossovers."
+    [start,end] = sorted(random.sample(range(countryNo),2))
+    ch1 = [-1 for i in range(len(p1))]
+    ch2 = [-1 for i in range(len(p1))]
+    for i in range(countryNo):
+        if i>=start and i<=end:
+            ch1[i]=p1[i]
+            ch2[i]=p2[i]
+    for i in range(countryNo):
+        if p2[i] not in ch1:
+            ch1[ch1.index(-1)]=p2[i]
+    for i in range(countryNo):
+        if p1[i] not in ch2:
+            ch2[ch2.index(-1)]=p1[i]
+    return ch1, ch2
 
 ### MUTATION
 def ScrambleMutation(item2):
