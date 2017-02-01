@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 import random
 import itertools
+import copy
+
+###################################
+######      CONSTANTS        ######
+###################################
+inf = 10000000.
+
 ###################################
 ######      GENOM SCALE      ######
 ###################################
@@ -78,7 +85,6 @@ def fitness(ch,distance):
 ###################################
 def bruteForcePopulation(N):
     "Generetes a list of all permutations of the length N. It's factorial, so be carefull!"
-    print "a"
     return list(itertools.permutations(range(N), N))
 
 def growPopulation(N,M):
@@ -89,3 +95,30 @@ def growPopulation(N,M):
         random.shuffle(basicPerm)
         population.append(basicPerm)
     return population
+
+def getHeuristicSolutions(distance,countryNo,heurNo):
+    """Get HEURNO number of heuristicly found chromosome (COUNTRYNO long each)
+    which is usually moderately good. It uses table of distances DISTANCE."""
+    if heurNo>countryNo:
+        print "WARNING: There might be no sense that heurNo > countryNo. There would be repetition"
+    heuristicPop = []
+    for ii in range(heurNo):
+        # Copy distance list
+        tempdist = copy.deepcopy(distance)
+        # Pick one guy
+        basicPerm = range(countryNo)
+        heur = []
+        luckyGuy = random.sample(basicPerm,1)[0]
+        basicPerm.remove(luckyGuy)
+        heur.append(luckyGuy)
+        # Get closest neighbour
+        for i in range(countryNo-1):
+            minval = min(tempdist[luckyGuy][:])
+            oldGuy = luckyGuy
+            luckyGuy = tempdist[luckyGuy].index(minval)
+            basicPerm.remove(luckyGuy)
+            heur.append(luckyGuy)
+            for jj in range(countryNo):
+                tempdist[oldGuy][jj] = inf
+                tempdist[jj][oldGuy] = inf
+        heuristicPop.append(heur)
