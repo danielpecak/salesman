@@ -9,5 +9,6 @@ DONE * parent selection
 DONE * crossover
 DONE * mutation
 
+* zaczynaj zawsze z tego samego miasta (eliminacja przesunięć cyklu)
 
 * rysowanie po mapie SVG
