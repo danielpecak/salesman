@@ -37,10 +37,12 @@ def drawMap(chromosome,continent,fname=None):
         fname = str(int(time.time()))
     plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
 
-mycontinent = 'NA'
-mycontinent = 'AF'
 mycontinent = 'AO'
 mycontinent = 'AS'
+mycontinent = 'AF'
+mycontinent = 'NA'
+mycontinent = 'SA'
+mycontinent = 'EU'
 
 countries = cities.loadCountries(mycontinent)
 # Calculate the distance between countries
