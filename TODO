@@ -12,3 +12,5 @@ DONE * mutation
 * zaczynaj zawsze z tego samego miasta (eliminacja przesunięć cyklu)
 
 * rysowanie po mapie SVG
+DONE  * zmniejszenie czcionki
+  * zrobienie tak, żeby nazwy stolic na siebie nie nachodziły

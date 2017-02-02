@@ -29,17 +29,20 @@ def drawMap(chromosome,continent,fname=None):
         map.drawgreatcircle(nylon,nylat,lonlon,lonlat,linewidth=1,color='b')
     # Draw points on cities
     x,y = map(caplon,caplat)
-    map.plot(x,y, 'bo', markersize=8)
+    map.plot(x,y, 'bo', markersize=2)
     # Write city names
     for label, xpt, ypt in zip(labels,x,y):
-        plt.text(xpt,ypt,label)
+        plt.text(xpt,ypt,label,fontsize=4)
     if fname==None:
         fname = str(int(time.time()))
     plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
 
+mycontinent = 'NA'
+mycontinent = 'AF'
+mycontinent = 'AO'
+mycontinent = 'AS'
 
-
-countries = cities.loadCountries('SA')
+countries = cities.loadCountries(mycontinent)
 # Calculate the distance between countries
 countryNo = len(countries)
 distance = cities.calcDistances(countries)
@@ -49,9 +52,8 @@ heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
 caplon = [x[3] for x in countries]
 caplat = [x[2] for x in countries]
 labels = [unicode(x[1],'utf-8') for x in countries] #TODO unicode problem!
-print labels
 
 chromosome = population.pop()
-# chromosome = heuristicPop.pop()
+chromosome = heuristicPop.pop()
 
-drawMap(chromosome,'SA')
+drawMap(chromosome,mycontinent)
