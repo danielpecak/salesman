@@ -9,7 +9,13 @@ import time
 
 def drawMap(chromosome,continent,fname=None):
     "Draws a map of a given chromosome on a given continent."
-    continentBoundary = {'AO': [ 131, -38.0,-145, 58, 170,  0], 'AS': [  31, -12.0, 145, 58,  60, 20], 'AF': [ -19, -38.0,  54, 38,  10,  0], 'EU': [ -12,  33.0,  40, 65,  17, 52], 'SA': [ -85, -44.0, -30, 15, -17,-62], 'NA': [-130,   6.0, -55, 53, -72, 20]}
+    continentBoundary = {
+    'AO': [ 131, -38.0,-145, 58, 170,  0],
+    'AS': [  31, -12.0, 145, 58,  60, 20],
+    'AF': [ -23, -38.0,  59, 38,  10,  0],
+    'EU': [ -12,  33.0,  40, 65,  17, 52],
+    'SA': [ -85, -44.0, -30, 15, -17,-62],
+    'NA': [-100,   4.0, -52, 50, -62, 20]}
     lllon, lllat, urlon, urlat, lon0, lat0 = continentBoundary[continent]
     map = Basemap(projection='merc', lat_0 = lat0, lon_0 = lon0,
         resolution = 'c',
