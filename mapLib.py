@@ -7,7 +7,7 @@ import genetics
 import sys
 import time
 
-def drawMap(chromosome,continent):
+def drawMap(chromosome,continent,fname=None):
     "Draws a map of a given chromosome on a given continent."
     continentBoundary = {'AO': [ 131, -38.0,-145, 58, 170,  0], 'AS': [  31, -12.0, 145, 58,  60, 20], 'AF': [ -19, -38.0,  54, 38,  10,  0], 'EU': [ -12,  33.0,  40, 65,  17, 52], 'SA': [ -85, -44.0, -30, 15, -17,-62], 'NA': [-130,   6.0, -55, 53, -72, 20]}
     lllon, lllat, urlon, urlat, lon0, lat0 = continentBoundary[continent]
@@ -27,7 +27,9 @@ def drawMap(chromosome,continent):
     # Write city names
     for label, xpt, ypt in zip(labels,x,y):
         plt.text(xpt,ypt,label)
-    plt.savefig('images/'+str(int(time.time()))+'.svg', bbox_inches='tight')
+    if fname==None:
+        fname = str(int(time.time()))
+    plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
 
 
 
