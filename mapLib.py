@@ -64,27 +64,3 @@ def drawMap(chromosome,continent,countries,fname=None):
     if fname==None:
         fname = str(int(time.time()))
     plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
-
-mycontinent = 'AO'
-mycontinent = 'AS'
-mycontinent = 'AF'
-mycontinent = 'NA'
-mycontinent = 'SA'
-mycontinent = 'EU'
-
-countries = cities.loadCountries(mycontinent)
-# Calculate the distance between countries
-countryNo = len(countries)
-distance = cities.calcDistances(countries)
-### Set population & heuristics
-population = genetics.growPopulation(10,countryNo)
-heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
-caplon = [x[3] for x in countries]
-caplat = [x[2] for x in countries]
-labels = [unicode(x[1],'utf-8') for x in countries]
-
-chromosome = population.pop()
-chromosome = heuristicPop.pop()
-
-# drawWorldMap(chromosome,countries)
-drawMap(chromosome,mycontinent,countries)
