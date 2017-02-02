@@ -10,7 +10,7 @@ inf = 10000000.
 def loadCountries(continent):
     """Load the list of countres from a file which has the structure:
 row=(0-Country; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)."""
-    code = {'SA':'south-america.csv','NA':'north-america.csv'}
+    code = {'SA':'data/south-america.csv','NA':'data/north-america.csv', 'EU':'europa.csv', 'AS':'asia.csv', 'AF':'africa.csv', 'AO':'oceania.csv', 'ALL':'world.csv'}
     fname = code[continent]
     countries = []
     with open(fname,'rb') as file:
