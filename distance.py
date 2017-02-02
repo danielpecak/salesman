@@ -5,7 +5,8 @@ import cities
 # General modules
 import sys
 import random
-
+import matplotlib.pyplot as plt
+import math
 
 # System parameters:
 time   = 100   # number of generations
@@ -61,6 +62,9 @@ for t in range(time):
     fitT.append(sum(fitnesses)/len(fitnesses))
     # TODO calculate also variance
 
-### TODO Plot convergence
-for i in fitT[-10:-1]:
-    print i
+### Plot convergence
+plt.plot(range(1,1+time),fitT)
+plt.ylabel('Fitness')
+plt.xlabel('Generation #')
+filename = 'time_Pop{:0.2f}_prob{:0.2f}'.format(math.log10(popNo), math.log10(xmen))
+plt.savefig('images/{:s}.png'.format(filename))
