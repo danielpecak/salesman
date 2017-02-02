@@ -42,9 +42,8 @@ population = genetics.growPopulation(10,countryNo)
 heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
 caplon = [x[3] for x in countries]
 caplat = [x[2] for x in countries]
-labels = [x[1] for x in countries] #TODO unicode problem!
-labels = ['Buenos Aires', 'Sucre', 'Brasilia', 'Santiago', 'Bogota', 'Quito', 'New Guatemala', 'Georgetown', 'Asuncion', 'Lima', 'Paramaribo', 'Montevideo', 'Caracas']
-
+labels = [unicode(x[1],'utf-8') for x in countries] #TODO unicode problem!
+print labels
 
 chromosome = population.pop()
 # chromosome = heuristicPop.pop()
