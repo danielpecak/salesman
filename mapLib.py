@@ -22,6 +22,7 @@ def drawMap(chromosome,continent,fname=None):
         llcrnrlon=lllon, llcrnrlat=lllat,
         urcrnrlon=urlon, urcrnrlat=urlat)
     map.drawcountries()
+    # TODO make maps prettier: better colors etc.
     map.fillcontinents(color = 'coral')
     # Connect cities in a proper order
     for i in range(len(caplon)-1):
@@ -53,7 +54,7 @@ population = genetics.growPopulation(10,countryNo)
 heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
 caplon = [x[3] for x in countries]
 caplat = [x[2] for x in countries]
-labels = [unicode(x[1],'utf-8') for x in countries] #TODO unicode problem!
+labels = [unicode(x[1],'utf-8') for x in countries]
 
 chromosome = population.pop()
 chromosome = heuristicPop.pop()
