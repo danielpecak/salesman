@@ -6,6 +6,15 @@ inf = 10000000.
 ###################################
 ######        CITIES         ######
 ###################################
+def loadStates():
+    """Load the list of the US states from a file which has the structure: row=(0-State; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)."""
+    states = []
+    with open('data/states.csv','rb') as file:
+        reader = csv.reader(file,delimiter=';')
+        for row in reader:
+            states.append(row[0:2]+map(float,row[2:]))
+    return states
+
 
 def loadCountries(continent):
     """Load the list of countres from a file which has the structure:
