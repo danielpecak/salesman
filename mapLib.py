@@ -64,3 +64,28 @@ def drawMap(chromosome,continent,countries,fname=None):
     if fname==None:
         fname = str(int(time.time()))
     plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
+
+def drawUSMap(chromosome,states,fname=None):
+    "Draws a map of the United States of America. That is true."
+    m = Basemap(llcrnrlon=-126,llcrnrlat=24,urcrnrlon=-67,urcrnrlat=50,
+                resolution='c',projection='merc',lon_0=-95,lat_0=37)
+    caplon = [x[3] for x in states]
+    caplat = [x[2] for x in states]
+    labels = [unicode(x[1],'utf-8') for x in states]
+    m.drawcoastlines()
+    m.drawstates()
+    m.drawcountries()
+    m.fillcontinents(color='coral',lake_color='aqua')
+    m.drawmapboundary(fill_color='aqua')
+    for i in range(len(caplon)-1):
+        nylon,nylat,lonlon,lonlat = caplon[chromosome[i]],caplat[chromosome[i]],caplon[chromosome[i+1]],caplat[chromosome[i+1]]
+        m.drawgreatcircle(nylon,nylat,lonlon,lonlat,linewidth=2,color='b')
+    # Draw points on cities
+    x,y = m(caplon,caplat)
+    m.plot(x,y, 'bo', markersize=4)
+    # Write city names
+    for label, xpt, ypt in zip(labels,x,y):
+        plt.text(xpt,ypt,label,fontsize=10)
+    if fname==None:
+        fname = 'US'+str(int(time.time()))
+    plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
