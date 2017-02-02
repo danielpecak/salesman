@@ -16,7 +16,7 @@ def ScrambleMutation(item):
     "Mutation that shuffles randomly the genes."
     item=copy.deepcopy(item)
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(countryNo+1),2))
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
     shuffle_slice(item,start,end)
     return item
 
@@ -24,7 +24,7 @@ def InversionMutation(item):
     item=copy.deepcopy(item)
     "Mutation that inverses the gene sequence."
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(countryNo+1),2))
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
     item[start:end] = reversed(item[start:end])
     return item
 
@@ -39,17 +39,17 @@ def shuffle_slice(a, start, stop):
 def CrossoverOX1(p1,p2):
     countryNo=len(p1)
     "Applies so called Davis' Order Crossover OX1 for permutation based crossovers."
-    [start,end] = sorted(random.sample(range(countryNo),2))
-    ch1 = [-1 for i in range(len(p1))]
-    ch2 = [-1 for i in range(len(p1))]
-    for i in range(countryNo):
+    [start,end] = sorted(random.sample(range(1,countryNo),2))
+    ch1 = [0]+[-1 for i in range(1,len(p1))]
+    ch2 = [0]+[-1 for i in range(1,len(p1))]
+    for i in range(1,countryNo):
         if i>=start and i<=end:
             ch1[i]=p1[i]
             ch2[i]=p2[i]
-    for i in range(countryNo):
+    for i in range(1,countryNo):
         if p2[i] not in ch1:
             ch1[ch1.index(-1)]=p2[i]
-    for i in range(countryNo):
+    for i in range(1,countryNo):
         if p1[i] not in ch2:
             ch2[ch2.index(-1)]=p1[i]
     return ch1, ch2
@@ -84,13 +84,13 @@ def bruteForcePopulation(N):
     "Generetes a list of all permutations of the length N. It's factorial, so be carefull!"
     return list(itertools.permutations(range(N), N))
 
-def growPopulation(N,M):
-    "Grow population of N individuals, everyone with M genes. "
+def growPopulation(P,G):
+    "Grow population of P individuals, everyone with G genes. "
     population = []
-    for i in range(N):
-        basicPerm = range(M)
+    for i in range(P):
+        basicPerm = range(1,G)
         random.shuffle(basicPerm)
-        population.append(basicPerm)
+        population.append([0]+basicPerm)
     return population
 
 def getHeuristicSolutions(distance,countryNo,heurNo):
