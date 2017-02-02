@@ -8,11 +8,18 @@ import random
 import matplotlib.pyplot as plt
 import math
 
-# System parameters:
-time   = 100   # number of generations
+### System DEFAULT parameters:
+time   = 1000  # number of generations
 popNo  = 10**3 # population size
 heurNo = 5     # number of heruristic solutions
 xmen   = 0.001 # probabilty of mutation
+
+### System optional command line parameter:
+for a in sys.argv:
+    if a in ['--population','--pop','-population','-pop']:
+        popNo = int(sys.argv[sys.argv.index(a)+1])
+    if a in ['--probability','--prob','-probability','-prob']:
+        xmen = float(sys.argv[sys.argv.index(a)+1])
 
 # Load the CSV file with Countries and coordinates
 countries = cities.loadCountries('SA') # South America
