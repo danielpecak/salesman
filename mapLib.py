@@ -7,7 +7,30 @@ import genetics
 import sys
 import time
 
-def drawMap(chromosome,continent,fname=None):
+def drawWorldMap(chromosome,countries,fname=None):
+    "Draws a map of the whole world"
+    m = Basemap(projection='robin',lon_0=0,resolution='c')
+    m.drawcoastlines()
+    m.fillcontinents(color='coral',lake_color='aqua')
+    # draw parallels and meridians.
+    m.drawparallels(np.arange(-90.,140.,30.))
+    m.drawmeridians(np.arange(0.,360.,60.))
+    m.drawmapboundary(fill_color='aqua')
+    # Draw points on cities
+    caplon = [x[3] for x in countries]
+    caplat = [x[2] for x in countries]
+    labels = [unicode(x[1],'utf-8') for x in countries]
+    x,y = m(caplon,caplat)
+    m.plot(x,y, 'bo', markersize=5)
+    for i in range(len(caplon)-1):
+        nylon,nylat,lonlon,lonlat = caplon[chromosome[i]],caplat[chromosome[i]],caplon[chromosome[i+1]],caplat[chromosome[i+1]]
+        m.drawgreatcircle(nylon,nylat,lonlon,lonlat,linewidth=1,color='b')
+    if fname==None:
+        fname = 'world'+str(int(time.time()))
+    plt.savefig('images/'+fname+'.png')
+
+
+def drawMap(chromosome,continent,countries,fname=None):
     "Draws a map of a given chromosome on a given continent."
     continentBoundary = {
     'AO': [ 121, -43.0, 230, 20, 130,-10],
@@ -22,9 +45,13 @@ def drawMap(chromosome,continent,fname=None):
         llcrnrlon=lllon, llcrnrlat=lllat,
         urcrnrlon=urlon, urcrnrlat=urlat)
     map.drawcountries()
+    caplon = [x[3] for x in countries]
+    caplat = [x[2] for x in countries]
+    labels = [unicode(x[1],'utf-8') for x in countries]
     # TODO make maps prettier: better colors etc.
     map.fillcontinents(color = 'coral')
     # Connect cities in a proper order
+    # TODO fix 180/-180 longitude problem
     for i in range(len(caplon)-1):
         nylon,nylat,lonlon,lonlat = caplon[chromosome[i]],caplat[chromosome[i]],caplon[chromosome[i+1]],caplat[chromosome[i+1]]
         map.drawgreatcircle(nylon,nylat,lonlon,lonlat,linewidth=1,color='b')
@@ -59,4 +86,5 @@ labels = [unicode(x[1],'utf-8') for x in countries]
 chromosome = population.pop()
 chromosome = heuristicPop.pop()
 
-drawMap(chromosome,mycontinent)
+# drawWorldMap(chromosome,countries)
+drawMap(chromosome,mycontinent,countries)
