@@ -41,7 +41,8 @@ print "Chromosome length: ", len(population[0])
 ### Fitness Based Selection
 fitT = []
 for t in range(time):
-    print "Generation #"+str(t)
+    if t%(time/10)==0:
+        print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
     # Calculate fitness
     fitnesses = [genetics.fitness(i,distance) for i in population]
     # Sort population based on fitnesses (sort the shit out)
