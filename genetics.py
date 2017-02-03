@@ -77,6 +77,14 @@ def fitness(ch,distance):
         total += distance[ch[c]][ch[(c+1)%countryNo]]
     return 10000./total
 
+def fitness0(ch,distance):
+    "Function calculates the fitness of a chromosome 'ch' as a total distance."
+    countryNo=len(ch)
+    total = 0.
+    for c in range(countryNo):
+        total += distance[ch[c]][ch[(c+1)%countryNo]]
+    return 50000 - total
+
 ###################################
 ######   POPULATION SCALE    ######
 ###################################
