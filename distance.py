@@ -9,10 +9,11 @@ import matplotlib.pyplot as plt
 import math
 
 ### System DEFAULT parameters:
-time   = 10**3 # number of generations
-popNo  = 10**3 # population size
-heurNo = 5     # number of heruristic solutions
-xmen   = 0.001 # probabilty of mutation
+time   = 10**3  # number of generations
+popNo  = 10**3  # population size
+heurNo = 5      # number of heruristic solutions
+xmen   = 0.001  # probabilty of mutation
+continent = 'SA'# South America
 
 ### System optional command line parameter:
 for a in sys.argv:
@@ -22,9 +23,15 @@ for a in sys.argv:
         xmen = float(sys.argv[sys.argv.index(a)+1])
     if a in ['--time','--t','-t']:
         time = int(sys.argv[sys.argv.index(a)+1])
+    if a in ['--type']:
+        allowed = ['AS','SA','NA','AO','EU','AF','ALL']
+        continent = sys.argv[sys.argv.index(a)+1]
+        if continent.strip() not in allowed:
+            sys.exit("""Wrong parameter! \n --type can be one of {}""".format(allowed))
+
 
 # Load the CSV file with Countries and coordinates
-countries = cities.loadCountries('SA') # South America
+countries = cities.loadCountries(continent) # South America
 
 # Calculate the distance between countries
 countryNo = len(countries)
