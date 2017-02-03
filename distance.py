@@ -39,6 +39,7 @@ distance = cities.calcDistances(countries)
 
 ### Set population & heuristics
 population = genetics.growPopulation(popNo,countryNo)
+meanCase = mean([genetics.cycleLength(p,distance) for p in population])
 heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
 for i in heuristicPop:
     population.append(i)
@@ -53,7 +54,7 @@ for t in range(time):
     if t%(time/10)==0:
         print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
     # Calculate fitness
-    fitnesses = [genetics.fitness0(i,distance) for i in population]
+    fitnesses = [genetics.fitness(i,distance,meanCase) for i in population]
     # Sort population based on fitnesses (sort the shit out)
     fitnesses,population=zip(*sorted(zip(fitnesses,population),reverse=True))
     nextgeneration = []
@@ -81,15 +82,16 @@ for t in range(time):
     # TODO save histogram
 
 ### Plot convergence
-plt.plot(range(1,1+time),[50-x/1000 for x in fitT])
+plt.plot(range(1,1+time),[(meanCase-x)/1000 for x in fitT])
 plt.ylabel('Path length [km]')
-minx = 50-max(fitT)/1000-1
-maxx = 50-min(fitT)/1000+1
-plt.ylim([minx,maxx])
+minx = (meanCase-max(fitT))/1000-1
+maxx = (meanCase-min(fitT))/1000+1
+# plt.ylim([minx,maxx])
 # plt.plot(range(1,1+time),fitT)
 # plt.ylabel('Fitness')
 # TODO Save this data fitT
 # TODO For longer times save just every n-th (n=10 etc.) realization parametrs.
 plt.xlabel('Generation #')
-filename = 'time{:0.2f}_Pop{:0.2f}_prob{:0.2f}'.format(math.log10(time),math.log10(popNo), math.log10(xmen))
+filename = '{}time{:0.2f}_Pop{:0.2f}_prob{:0.2f}'.format(continent,math.log10(time),math.log10(popNo), math.log10(xmen))
 plt.savefig('images/{:s}.png'.format(filename))
+print 'Saved in images/{:s}.png'.format(filename)

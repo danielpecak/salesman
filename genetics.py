@@ -60,6 +60,7 @@ def CrossoverOX1(p1,p2):
 ### Choose parents
 def rouletteWheelSelection(population,fitnesses):
     "Chooses parent from the population: calculating the fitness, sorting population by the fitness and weighting by the fitness it randomly chooses a parent."
+    # TODO olej, gdy ujemne
     total = sum(fitnesses)
     lotteryTicket = random.uniform(0,total)
     pick = 0.
@@ -69,21 +70,21 @@ def rouletteWheelSelection(population,fitnesses):
             return population[i]
 
 ### Fitness function
-def fitness(ch,distance):
+def fitness(ch,distance,shift):
     "Function calculates the fitness of a chromosome 'ch'"
     countryNo=len(ch)
     total = 0.
     for c in range(countryNo):
         total += distance[ch[c]][ch[(c+1)%countryNo]]
-    return 10000./total
+    return shift - total
 
-def fitness0(ch,distance):
-    "Function calculates the fitness of a chromosome 'ch' as a total distance."
+def cycleLength(ch,distance):
+    "Function calculates the total length of the path given by a  chromosome 'ch'."
     countryNo=len(ch)
     total = 0.
     for c in range(countryNo):
         total += distance[ch[c]][ch[(c+1)%countryNo]]
-    return 50000 - total
+    return total
 
 ###################################
 ######   POPULATION SCALE    ######
