@@ -126,5 +126,7 @@ def getHeuristicSolutions(distance,countryNo,heurNo):
             for jj in range(countryNo):
                 tempdist[oldGuy][jj] = inf
                 tempdist[jj][oldGuy] = inf
+        ind = heur.index(0)
+        heur = [heur[(it+ind)%countryNo] for it in range(countryNo)]
         heuristicPop.append(heur)
     return heuristicPop
