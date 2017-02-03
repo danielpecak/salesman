@@ -8,6 +8,15 @@ import random
 import matplotlib.pyplot as plt
 import math
 
+def mean(list):
+    "Returns mean of the points in list."
+    return sum(list)/len(list)
+
+def variance(list):
+    mean = sum(list)/len(list)
+    s = [(x - mean)**2 for x in list]
+    return sum(s)/len(s)
+
 ### System DEFAULT parameters:
 time   = 10**3  # number of generations
 popNo  = 10**3  # population size
@@ -31,7 +40,7 @@ for a in sys.argv:
 
 
 # Load the CSV file with Countries and coordinates
-countries = cities.loadCountries(continent) # South America
+countries = cities.loadCountries(continent)
 
 # Calculate the distance between countries
 countryNo = len(countries)
@@ -45,8 +54,10 @@ for i in heuristicPop:
     population.append(i)
 
 
-print "Population: ", len(population)
+print "Population (random + heuristics): ", len(population)
 print "Chromosome length: ", len(population[0])
+print "Mean: ",int(meanCase)
+
 
 ### Fitness Based Selection
 fitT = []
@@ -77,7 +88,7 @@ for t in range(time):
         nextgeneration.append(ch2)
     population = nextgeneration
     # Look at the average fitness
-    fitT.append(sum(fitnesses)/len(fitnesses))
+    fitT.append(mean(fitnesses))
     # TODO calculate also variance
     # TODO save histogram
 
