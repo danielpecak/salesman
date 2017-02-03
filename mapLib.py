@@ -40,6 +40,7 @@ def drawMap(chromosome,continent,countries,fname=None):
     'SA': [ -82, -52.0, -40, 15, -17,-62],
     'NA': [-100,   4.0, -52, 50, -62, 20]}
     lllon, lllat, urlon, urlat, lon0, lat0 = continentBoundary[continent]
+    plt.clf()
     map = Basemap(projection='merc', lat_0 = lat0, lon_0 = lon0,
         resolution = 'c',
         llcrnrlon=lllon, llcrnrlat=lllat,

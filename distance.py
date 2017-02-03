@@ -2,6 +2,7 @@
 # My modules
 import genetics
 import cities
+import mapLib
 # General modules
 import sys
 import random
@@ -106,3 +107,5 @@ plt.xlabel('Generation #')
 filename = '{}time{:0.2f}_Pop{:0.2f}_prob{:0.2f}'.format(continent,math.log10(time),math.log10(popNo), math.log10(xmen))
 plt.savefig('images/{:s}.png'.format(filename))
 print 'Saved in images/{:s}.png'.format(filename)
+for i in range(5):
+    mapLib.drawMap(population[i],continent,countries,fname=filename[:-4]+'MAP{}'.format(i+1))
