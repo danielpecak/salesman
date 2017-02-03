@@ -9,7 +9,7 @@ all: bin/test
 
 random.o: interpol.o
 
-bin/%: random.o interpol.o functions.o  %.o
+bin/%: random.o interpol.o genetics.o  %.o
 	mkdir -p bin
 	$(COMPILE.F) -o $@ $^
 

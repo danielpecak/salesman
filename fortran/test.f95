@@ -1,19 +1,26 @@
 program test
-  use functions
+  use genetics
   use slf_random
   implicit none
 real*8  :: x,y
+integer, parameter :: N=10
+integer  :: v(1:N) = (/1,2,3,4,5,6,7,8,9,0/)
 integer :: i
 
+! Turn on a random number generator
 call random_init_urandom()
-do i=1,10**5
-  call random_number(x)
-  call random_number(y)
-  if (x<1.d-5) then
-    print *, x
-  endif
-  if (y<1.d-5) then
-    print *, y
-  endif
-enddo
+call random_number(x)
+
+print "(10I2)", v
+call Shuffle(v)
+print "(10I2)", v
+
+
+
+
+
+
+x=1.
+y=1.
+i=1
 end program test
