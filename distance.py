@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import math
 
 ### System DEFAULT parameters:
-time   = 1000  # number of generations
+time   = 10**3 # number of generations
 popNo  = 10**3 # population size
 heurNo = 5     # number of heruristic solutions
 xmen   = 0.001 # probabilty of mutation
@@ -20,6 +20,8 @@ for a in sys.argv:
         popNo = int(sys.argv[sys.argv.index(a)+1])
     if a in ['--probability','--prob','-probability','-prob']:
         xmen = float(sys.argv[sys.argv.index(a)+1])
+    if a in ['--time','--t','-t']:
+        time = int(sys.argv[sys.argv.index(a)+1])
 
 # Load the CSV file with Countries and coordinates
 countries = cities.loadCountries('SA') # South America
@@ -78,5 +80,5 @@ plt.plot(range(1,1+time),fitT)
 
 plt.ylabel('Fitness')
 plt.xlabel('Generation #')
-filename = 'time_Pop{:0.2f}_prob{:0.2f}'.format(math.log10(popNo), math.log10(xmen))
+filename = 'time{:0.2f}_Pop{:0.2f}_prob{:0.2f}'.format(math.log10(time),math.log10(popNo), math.log10(xmen))
 plt.savefig('images/{:s}.png'.format(filename))
