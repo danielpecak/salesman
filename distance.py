@@ -62,6 +62,7 @@ print "Mean: ",int(meanCase)
 
 ### Fitness Based Selection
 fitT = []
+tops = [] # TODO gather top 10 of all generations
 for t in range(time):
     if t%(time/10)==0:
         print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
