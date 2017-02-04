@@ -26,15 +26,14 @@ subroutine pick_range(from,to,start,finish)
   real*8  :: r
 
   allocate(a(to-from))
-  do k=1, to-from
+  do k=1, to-from+1
     a(k) = k+from-1
   end do!k
-
   call random_number(r)
-  start = a(int(r*size(a)) + 1)
+  start = a(int(r*(size(a)+1)) + 1)
   do
     call random_number(r)
-    k = a(int(r*size(a)) + 1)
+    k = a(int(r*(size(a)+1)) + 1)
     if (k>start) then
       finish = k
       exit
@@ -44,7 +43,7 @@ subroutine pick_range(from,to,start,finish)
       exit
     end if
   end do
-end subroutine
+end subroutine pick_range
 
 ! ###################################
 ! ######      GENOM SCALE      ######
@@ -53,10 +52,10 @@ end subroutine
 subroutine ScrambleMutation(item)
 ! Mutation that shuffles randomly the genes.
   integer, intent(inout) :: item(:)
-  integer :: len
+  integer :: len, start,finish , t
   len = size(item,1)
-
-
+  call pick_range(2,len,start,finish)
+  call shuffle(item(start:finish))
 end subroutine ScrambleMutation
 
 end module genetics
