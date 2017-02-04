@@ -3,6 +3,19 @@ implicit none
 real*8, parameter :: inf = 1000000000.d0
 contains
 
+function isElIn(item,list) result(is)
+  integer, intent(in) :: list(:), item
+  integer :: i
+  logical :: is
+  is=.false.
+  do i=1,size(list)
+    if (list(i) == item) then
+      is=.true.
+    endif
+  end do
+
+end function isElIn
+
 subroutine shuffle(a)
   ! http://rosettacode.org/wiki/Knuth_shuffle#Fortran
   integer, intent(inout) :: a(:)
@@ -65,8 +78,6 @@ subroutine InversionMutation(item)
   integer :: len, start,finish , i, temp
   len = size(item,1)
   call pick_range(2,len,start,finish)
-  print *, start, finish
-  print "(10I2)", (i, i=1,10)
   ! Inverse given range of genes
   do i=start,(finish+start-1)/2
     temp = item(i)
@@ -76,6 +87,42 @@ subroutine InversionMutation(item)
 end subroutine InversionMutation
 
 !### Davis' Order Crossover (O1)
+subroutine CrossoverOX1(p1,p2,ch1,ch2)
+!Applies so called Davis' Order Crossover OX1 for permutation based crossovers.
+  integer, intent(in)  :: p1(:), p2(:)
+  integer, intent(out) :: ch1(:), ch2(:)
+  integer :: len, start, finish, i, j
+  len = size(ch1)
+  call pick_range(2,len,start,finish)
+  print *, start, finish
+  ch1 = 0
+  ch2 = 0
+  ch1(1) = 1
+  ch2(1) = 1
+  do i=start,finish
+    ch1(i) = p1(i)
+    ch2(i) = p2(i)
+  enddo!i
+  do i=2,len
+    if (.not.isElIn(p2(i),ch1)) then
+      do j=1,len
+        if (ch1(j)==0) then
+          ch1(j) = p2(i)
+          exit
+        endif
+      enddo!j
+    endif
+    if (.not.isElIn(p1(i),ch2)) then
+      do j=1,len
+        if (ch2(j)==0) then
+          ch2(j) = p1(i)
+          exit
+        endif
+      enddo!j
+    endif
+  enddo!i
+end subroutine CrossoverOX1
+
 ! ###################################
 ! ######    INDIVIDUAL SCALE    #####
 ! ###################################
@@ -121,7 +168,7 @@ subroutine growPopulation(population)
   genNo = size(population,1)
   do i=1,popNo
     population(:,i) = (/ (j, j=1,genNo) /)
-    call shuffle(population(:,i))
+    call shuffle(population(2:genNo,i))
   enddo!i
 end subroutine growPopulation
 
