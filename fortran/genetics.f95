@@ -2,7 +2,7 @@ module genetics
 implicit none
 contains
 
-subroutine Shuffle(a)
+subroutine shuffle(a)
   ! http://rosettacode.org/wiki/Knuth_shuffle#Fortran
   integer, intent(inout) :: a(:)
   integer :: i, randpos, temp
@@ -14,18 +14,37 @@ subroutine Shuffle(a)
     a(randpos) = a(i)
     a(i) = temp
   end do
-end subroutine Shuffle
+end subroutine shuffle
 
-function pick_random(a) result(i)
-  ! Slightly modified version of:
+subroutine pick_range(from,to,start,finish)
+  ! Modified version of:
   ! http://rosettacode.org/wiki/Pick_random_element#Fortran
-  integer, intent(in) :: a(:)
-  integer :: i
+  integer, intent(in)  :: from, to
+  integer, intent(out) :: start, finish
+  integer, allocatable :: a(:)
+  integer :: k
   real*8  :: r
 
+  allocate(a(to-from))
+  do k=1, to-from
+    a(k) = k+from-1
+  end do!k
+
   call random_number(r)
-  i = a(int(r*size(a)) + 1)
-end function
+  start = a(int(r*size(a)) + 1)
+  do
+    call random_number(r)
+    k = a(int(r*size(a)) + 1)
+    if (k>start) then
+      finish = k
+      exit
+    elseif (k<start) then
+      finish = start
+      start = k
+      exit
+    end if
+  end do
+end subroutine
 
 ! ###################################
 ! ######      GENOM SCALE      ######
