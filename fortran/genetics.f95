@@ -75,6 +75,40 @@ subroutine InversionMutation(item)
   end do!i
 end subroutine InversionMutation
 
+!### Davis' Order Crossover (O1)
+! ###################################
+! ######    INDIVIDUAL SCALE    #####
+! ###################################
+! ### Choose parents
+!### Fitness function
+subroutine fitness(item,distance,shift,total)
+  ! Function calculates the fitness of a chromosome 'item'
+  integer, intent(in)  :: item(:)
+  real*8,  intent(in)  :: distance(:,:), shift
+  real*8,  intent(out) :: total
+  integer :: genNo, i
+  genNo = size(item,1)
+  total = 0.d0
+  do i=1,genNo
+    total = total + distance(item(i),item(mod(i,genNo)+1))
+  end do!i
+  total = shift - total
+end subroutine fitness
+
+
+subroutine cycleLength(item,distance,total)
+  ! Function calculates the total length of the path given by a  chromosome ITEM
+  integer, intent(in)  :: item(:)
+  real*8,  intent(in)  :: distance(:,:)
+  real*8,  intent(out) :: total
+  integer :: genNo, i
+  genNo = size(item,1)
+  total = 0.d0
+  do i=1,genNo
+    total = total + distance(item(i),item(mod(i,genNo)+1))
+  end do!i
+end subroutine cycleLength
+
 ! ###################################
 ! ######   POPULATION SCALE    ######
 ! ###################################
