@@ -74,4 +74,20 @@ subroutine InversionMutation(item)
   end do!i
 end subroutine InversionMutation
 
+! ###################################
+! ######   POPULATION SCALE    ######
+! ###################################
+subroutine growPopulation(population)
+!  Grow population of P individuals, everyone with G genes.
+  integer, intent(inout) :: population(:,:)
+  integer  :: popNo, genNo
+  integer  :: i, j
+  popNo = size(population,2)
+  genNo = size(population,1)
+  do i=1,popNo
+    population(:,i) = (/ (j, j=1,genNo) /)
+    call shuffle(population(:,i))
+  enddo!i
+end subroutine growPopulation
+
 end module genetics
