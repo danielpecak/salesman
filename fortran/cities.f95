@@ -16,7 +16,7 @@ subroutine calcDistances(places,distances)
   distances = inf
   do i=1,genNo
     do j=i+1,genNo
-      dLong = dabs(places(2,i)-places(5,2))
+      dLong = dabs(places(2,i)-places(2,j))
       fi1 = places(1,i)
       fi2 = places(1,j)
       dist = acos(sin(fi1)*sin(fi2) + cos(fi1)*cos(fi2)*cos(dLong))

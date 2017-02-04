@@ -1,5 +1,6 @@
 module genetics
 implicit none
+real*8, parameter :: inf = 1000000000.d0
 contains
 
 subroutine shuffle(a)
