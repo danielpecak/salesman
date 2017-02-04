@@ -52,10 +52,26 @@ end subroutine pick_range
 subroutine ScrambleMutation(item)
 ! Mutation that shuffles randomly the genes.
   integer, intent(inout) :: item(:)
-  integer :: len, start,finish , t
+  integer :: len, start,finish
   len = size(item,1)
   call pick_range(2,len,start,finish)
   call shuffle(item(start:finish))
 end subroutine ScrambleMutation
+
+subroutine InversionMutation(item)
+  ! Mutation that invertes random sequence of genes.
+  integer, intent(inout) :: item(:)
+  integer :: len, start,finish , i, temp
+  len = size(item,1)
+  call pick_range(2,len,start,finish)
+  print *, start, finish
+  print "(10I2)", (i, i=1,10)
+  ! Inverse given range of genes
+  do i=start,(finish+start-1)/2
+    temp = item(i)
+    item(i) = item(finish+start-i)
+    item(finish+start-i) = temp
+  end do!i
+end subroutine InversionMutation
 
 end module genetics
