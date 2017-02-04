@@ -39,6 +39,7 @@ def shuffle_slice(a, start, stop):
 def CrossoverOX1(p1,p2):
     countryNo=len(p1)
     "Applies so called Davis' Order Crossover OX1 for permutation based crossovers."
+    # TODO not sure if below shouldnt be 'countryNo+1'
     [start,end] = sorted(random.sample(range(1,countryNo),2))
     ch1 = [0]+[-1 for i in range(1,len(p1))]
     ch2 = [0]+[-1 for i in range(1,len(p1))]
