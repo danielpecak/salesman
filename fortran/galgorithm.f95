@@ -4,13 +4,18 @@ program galgorithm
   use slf_random
   implicit none
   real*8  :: x
-  real*8  ::  southAmerica(2,13) ! change name to PLACES everywhere
-  real*8  ::  distances(13,13)
+  real*8, allocatable  ::  places(:,:), distances(:,:)
   type(group), allocatable  :: population(:), temppop(:)
-  integer :: time = 1000, popNo = 1000
+  integer :: time  = 1000,&
+             popNo = 1000
   real*8  :: xmen = 0.001d0
-  real*8  :: meanCase = 55000.d0
+  real*8  :: meanCase
   integer  :: i,t,p,p1,p2, genNo
+  integer  :: dt
+  real*8   :: data(1:200)
+
+
+
   ! Turn on a random number generator
   call random_init_urandom()
   !!! System DEFAULT parameters:
@@ -21,32 +26,30 @@ program galgorithm
   !!! Load favourite places
   ! TODO
   ! Load SOUTH AMERICA
-  include 'data/sa.f'
-  call calcDistances(southAmerica,distances)
+  include 'data/eu.f'
+  genNo = size(places,2)
+  allocate(distances(genNo,genNo))
+  call calcDistances(places,distances)
 
   !!! Set population & heuristics
   ! TODO
-  genNo = size(southAmerica,2)
-  popNo = 10
   allocate(temppop(popNo)) ! auxilary population
   do i=1,popNo
     call group_create(temppop(i),genNo)
   enddo!i
   allocate(population(popNo)) !
   call growPopulation(population,genNo)
-
-  do p=1,popNo
-    call fitness(population(p),distances,meanCase)
-  enddo!p
-  call QSort(population,popNo)
+  do i=1,popNo
+    call cycleLength(population(i),distances)
+  enddo!i
+  meanCase = mean(population(:)%fitness)
+  ! DATA
+  dt = time/size(data)
 
 
   !!! Fitness Base Selection
   ! TODO
   do t=1,time
-    do i=1,popNo
-      temppop(i)%chromosome = 0
-    enddo
     if (mod(t,time/10)==0) print *, "Generation #",t,"out of",time
     do p=1,popNo
       call fitness(population(p),distances,meanCase)
@@ -72,9 +75,17 @@ program galgorithm
     do i=1,popNo
       population(i)%chromosome = temppop(i)%chromosome
     enddo
+    if(mod(t,dt)==0) then
+      open(1,file='time.dat',action='write',access='append')
+        write(1,*) t, meanCase - mean(population(:)%fitness), variance(population(:)%fitness)
+      close(1)
+    endif
   enddo!t
   !!! Save data
   ! TODO
 
+  ! do i=1,10
+  !   print "(39I3)", population(i)%chromosome
+  ! enddo
 
 end program galgorithm

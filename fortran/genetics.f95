@@ -77,8 +77,22 @@ function isElIn(item,list) result(is)
       is=.true.
     endif
   end do
-
 end function isElIn
+
+
+function mean(list) result(m)
+real*8, intent(in) :: list(:)
+real*8 :: m
+m = sum(list)/size(list)
+end function
+
+function variance(list) result(s)
+  real*8, intent(in) :: list(:)
+  real*8 :: m, s
+  m = sum(list)/size(list)
+  s = sum((list-m)**2)/size(list)
+  s = sqrt(s)
+end function variance
 
 subroutine shuffle(a)
   ! http://rosettacode.org/wiki/Knuth_shuffle#Fortran
@@ -227,16 +241,15 @@ subroutine fitness(population,distance,shift)
 end subroutine fitness
 
 
-subroutine cycleLength(item,distance,total)
+subroutine cycleLength(population,distance)
   ! Function calculates the total length of the path given by a  chromosome ITEM
-  integer, intent(in)  :: item(:)
+  type(group), intent(inout) :: population
   real*8,  intent(in)  :: distance(:,:)
-  real*8,  intent(out) :: total
   integer :: genNo, i
-  genNo = size(item,1)
-  total = 0.d0
+  genNo = size(population%chromosome,1)
+  population%fitness = 0.d0
   do i=1,genNo
-    total = total + distance(item(i),item(mod(i,genNo)+1))
+    population%fitness = population%fitness + distance(population%chromosome(i),population%chromosome(mod(i,genNo)+1))
   end do!i
 end subroutine cycleLength
 
@@ -252,7 +265,6 @@ subroutine growPopulation(population,genNo)
   popNo = size(population)
   do i=1,popNo
     call group_create(population(i),genNo)
-    population(i)%order = i
     call shuffle(population(i)%chromosome(2:genNo))
   enddo!i
 end subroutine growPopulation
