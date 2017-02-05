@@ -38,7 +38,7 @@ program galgorithm
   do t=1,time
     if (mod(t,time/10)==0) print *, "Generation #",t,"out of",time
     do p=1,popNo
-      call fitness(population(p)%chromosome,distances,meanCase,population(p)%fitness)
+      call fitness(population(i),distances,meanCase)
     enddo!p
 
     do p=1,popNo/2

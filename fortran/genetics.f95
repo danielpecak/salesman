@@ -42,11 +42,11 @@ recursive subroutine QSort(A,nA)
 
           do while (left < right)
               right = right - 1
-              do while (A(right)%fitness > pivot)
+              do while (A(right)%fitness < pivot)
                   right = right - 1
               end do
               left = left + 1
-              do while (A(left)%fitness < pivot)
+              do while (A(left)%fitness > pivot)
                   left = left + 1
               end do
               if (left < right) then
@@ -193,18 +193,17 @@ end subroutine CrossoverOX1
 ! ###################################
 ! ### Choose parents
 !### Fitness function
-subroutine fitness(item,distance,shift,total)
+subroutine fitness(population,distance,shift)
   ! Function calculates the fitness of a chromosome 'item'
-  integer, intent(in)  :: item(:)
+  type(group), intent(inout) :: population
   real*8,  intent(in)  :: distance(:,:), shift
-  real*8,  intent(out) :: total
   integer :: genNo, i
-  genNo = size(item,1)
-  total = 0.d0
+  genNo = size(population%chromosome)
+  population%fitness = 0.d0
   do i=1,genNo
-    total = total + distance(item(i),item(mod(i,genNo)+1))
+    population%fitness = population%fitness + distance(population%chromosome(i),population%chromosome(mod(i,genNo)+1))
   end do!i
-  total = shift - total
+  population%fitness = shift - population%fitness
 end subroutine fitness
 
 
