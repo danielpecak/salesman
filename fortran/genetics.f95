@@ -116,16 +116,15 @@ subroutine pick_range(from,to,start,finish)
   integer, allocatable :: a(:)
   integer :: k
   real*8  :: r
-
   allocate(a(to-from))
-  do k=1, to-from+1
-    a(k) = k+from-1
+  do k=1, to-from
+    a(k) = k+from
   end do!k
   call random_number(r)
-  start = a(int(r*(size(a)+1)) + 1)
+  start = a(int(r*(size(a))) + 1)
   do
     call random_number(r)
-    k = a(int(r*(size(a)+1)) + 1)
+    k = a(int(r*(size(a))) + 1)
     if (k>start) then
       finish = k
       exit
