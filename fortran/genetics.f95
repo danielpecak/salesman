@@ -4,7 +4,6 @@ real*8, parameter :: inf = 1000000000.d0
 
 type group
   real*8  :: fitness  ! values to be sorted by
-  integer :: order    ! original order of unsorted data
   integer :: age
   integer, pointer :: chromosome(:)
 end type group
@@ -159,8 +158,8 @@ subroutine CrossoverOX1(p1,p2,ch1,ch2)
   integer :: len, start, finish, i, j
   len = size(ch1)
   call pick_range(2,len,start,finish)
-  ch1 = 0
-  ch2 = 0
+  ch1 = -1
+  ch2 = -1
   ch1(1) = 1
   ch2(1) = 1
   do i=start,finish
@@ -169,16 +168,16 @@ subroutine CrossoverOX1(p1,p2,ch1,ch2)
   enddo!i
   do i=2,len
     if (.not.isElIn(p2(i),ch1)) then
-      do j=1,len
-        if (ch1(j)==0) then
+      do j=2,len
+        if (ch1(j)==-1) then
           ch1(j) = p2(i)
           exit
         endif
       enddo!j
     endif
     if (.not.isElIn(p1(i),ch2)) then
-      do j=1,len
-        if (ch2(j)==0) then
+      do j=2,len
+        if (ch2(j)==-1) then
           ch2(j) = p1(i)
           exit
         endif
@@ -191,12 +190,12 @@ end subroutine CrossoverOX1
 ! ######    INDIVIDUAL SCALE    #####
 ! ###################################
 ! ### Choose parents
-subroutine rouletteWheelSelection(fitnesses,i)
+subroutine rouletteWheelSelection(fitnesses,p1)
 ! Chooses parent from the population by the fitness and weighting by the fitness it randomly chooses a parent.
   real*8,  intent(in) :: fitnesses(:)
-  integer, intent(out):: i
+  integer, intent(out):: p1
   real*8 :: r, total, pick
-  integer :: popNo
+  integer :: popNo, i
   popNo = size(fitnesses,1)
   total = sum(fitnesses)
   call random_number(r)
@@ -204,8 +203,12 @@ subroutine rouletteWheelSelection(fitnesses,i)
   pick = 0.d0
   do i=1,popNo
     pick = pick + fitnesses(i)
-    if (pick > r)  exit
+    if (pick > r)  then
+      p1=i
+      GOTO 11
+    endif
   end do!i
+11 continue
   ! TODO CHECK
 end subroutine rouletteWheelSelection
 
