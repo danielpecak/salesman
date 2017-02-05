@@ -159,7 +159,6 @@ subroutine CrossoverOX1(p1,p2,ch1,ch2)
   integer :: len, start, finish, i, j
   len = size(ch1)
   call pick_range(2,len,start,finish)
-  print *, start, finish
   ch1 = 0
   ch2 = 0
   ch1(1) = 1
@@ -192,6 +191,24 @@ end subroutine CrossoverOX1
 ! ######    INDIVIDUAL SCALE    #####
 ! ###################################
 ! ### Choose parents
+subroutine rouletteWheelSelection(fitnesses,i)
+! Chooses parent from the population by the fitness and weighting by the fitness it randomly chooses a parent.
+  real*8,  intent(in) :: fitnesses(:)
+  integer, intent(out):: i
+  real*8 :: r, total, pick
+  integer :: popNo
+  popNo = size(fitnesses,1)
+  total = sum(fitnesses)
+  call random_number(r)
+  r=r*total
+  pick = 0.d0
+  do i=1,popNo
+    pick = pick + fitnesses(i)
+    if (pick > r)  exit
+  end do!i
+  ! TODO CHECK
+end subroutine rouletteWheelSelection
+
 !### Fitness function
 subroutine fitness(population,distance,shift)
   ! Function calculates the fitness of a chromosome 'item'
