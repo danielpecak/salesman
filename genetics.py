@@ -12,6 +12,15 @@ inf = 10000000.
 ######      GENOM SCALE      ######
 ###################################
 ### MUTATION
+def SwapMutaton(item):
+    "Mutation that swaps two genes."
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
+    temp = item(start)
+    item(start) = item(end)
+    item(end)   = temp
+    return item
+    # TODO CHECK !!
+
 def ScrambleMutation(item):
     "Mutation that shuffles randomly the genes."
     item=copy.deepcopy(item)
