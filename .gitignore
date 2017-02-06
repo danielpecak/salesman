@@ -7,3 +7,8 @@ __pycache__/
 images/
 temp/
 test.py
+
+bin/
+dat/
+*.mod
+*.o
