@@ -25,6 +25,11 @@ popNo  = 10**3  # population size
 heurNo = 5      # number of heruristic solutions
 xmen   = 0.001  # probabilty of mutation
 continent = 'SA'# South America
+dsave = 15*10**6 # save every ~30 minutes
+if time < 1000:
+    dt = time/10
+else:
+    dt = time/100
 
 ### System optional command line parameter:
 for a in sys.argv:
@@ -65,7 +70,7 @@ print "Mean: ",int(meanCase)
 fitT = []
 tops = [] # TODO gather top 10 of all generations
 for t in range(time):
-    if t%(time/10)==0:
+    if t%dt==0:
         print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
     # Calculate fitness
     fitnesses = [genetics.fitness(i,distance,meanCase) for i in population]
@@ -84,9 +89,13 @@ for t in range(time):
         x = random.random()
         if x < xmen: ch1 = genetics.InversionMutation(ch1)
         x = random.random()
+        if x < xmen: ch1 = genetics.SwapMutaton(ch1)
+        x = random.random()
         if x < xmen: ch2 = genetics.ScrambleMutation(ch2)
         x = random.random()
         if x < xmen: ch2 = genetics.InversionMutation(ch2)
+        x = random.random()
+        if x < xmen: ch2 = genetics.SwapMutaton(ch2)
         nextgeneration.append(ch1)
         nextgeneration.append(ch2)
     population = nextgeneration
