@@ -15,10 +15,11 @@ inf = 10000000.
 ### MUTATION
 def SwapMutaton(item):
     "Mutation that swaps two genes."
-    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
-    temp = item(start)
-    item(start) = item(end)
-    item(end)   = temp
+    countryNo = len(item)
+    [start,end] = sorted(random.sample(range(1,countryNo),2))
+    temp = item[start]
+    item[start] = item[end]
+    item[end]   = temp
     return item
     # TODO CHECK !!
 
@@ -26,7 +27,7 @@ def ScrambleMutation(item):
     "Mutation that shuffles randomly the genes."
     item=copy.deepcopy(item)
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))#TODO not sure about countryNo+1
     shuffle_slice(item,start,end)
     return item
 
@@ -34,7 +35,7 @@ def InversionMutation(item):
     item=copy.deepcopy(item)
     "Mutation that inverses the gene sequence."
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2)) #TODO not sure about countryNo+1
     item[start:end] = reversed(item[start:end])
     return item
 
