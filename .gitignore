@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # My own
+snapshot/
 images/
 temp/
 test.py
