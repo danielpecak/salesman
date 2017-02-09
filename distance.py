@@ -4,11 +4,13 @@
 import genetics
 import cities
 import mapLib
+import myio
 # General modules
 import sys
 import random
 import matplotlib.pyplot as plt
 import math
+import copy
 
 def mean(list):
     "Returns mean of the points in list."
@@ -19,27 +21,19 @@ def variance(list):
     s = [(x - mean)**2 for x in list]
     return sum(s)/len(s)
 
-def saveSnapshot(continent,popNo,xmen,t,population):
-    fname = "time-{}_P{}_X{}_T{}".format(continent,popNo/1000,xmen*1000,t/100)
-    f = open('snapshot/'+fname,'wb')
-    for p in population:
-        f.write(" ".join(map(str,p))+"\n")
-    f.close()
-    print fname
-
 
 ### System DEFAULT parameters:
 time   = 10**3  # number of generations
 popNo  = 10**3  # population size
 heurNo = 5      # number of heruristic solutions
 xmen   = 0.001  # probabilty of mutation
-continent = 'SA'# South America
-dsave = 15*10**6 # save every ~30 minutes
-if time < 1000:
+continent = 'SA'# South America (the least places)
+dsave = 15*10**6 # save every ~30 minutes; 1 mln = 2 minutes
+if time < 10000:
     dt = time/10
 else:
     dt = time/100
-
+dsave = 400
 ### System optional command line parameter:
 for a in sys.argv:
     if a in ['--population','--pop','-population','-pop']:
@@ -63,12 +57,16 @@ countryNo = len(countries)
 distance = cities.calcDistances(countries)
 
 ### Set population & heuristics
-population = genetics.growPopulation(popNo,countryNo)
+if myio.lastSnapshot(continent,popNo,xmen) != None:
+    population, bestpopulation, time0 = myio.loadSnapshot(myio.lastSnapshot(continent,popNo,xmen),popNo)
+else:
+    population = genetics.growPopulation(popNo-countryNo,countryNo)
+    heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
+    time0 = 0
+    for i in heuristicPop:
+        population.append(i)
+    bestpopulation = copy.deepcopy(population)
 meanCase = mean([genetics.cycleLength(p,distance) for p in population])
-heuristicPop = genetics.getHeuristicSolutions(distance,countryNo,countryNo)
-for i in heuristicPop:
-    population.append(i)
-
 
 print "Population (random + heuristics): ", len(population)
 print "Chromosome length: ", len(population[0])
@@ -77,16 +75,19 @@ print "Mean: ",int(meanCase)
 
 ### Fitness Based Selection
 fitT = []
-tops = [] # TODO gather top 10 of all generations
-for t in range(time):
+varT = []
+for t in range(time0,time0+time):
     if t%dt==0:
-        print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
+        print "Generation #"+str(t).rjust(4)+" out of "+str(time+time0)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
     if t%dsave==0:
-        saveSnapshot(continent,popNo,xmen,t,population)
+        myio.saveSnapshot(continent,popNo,xmen,t,population,bestpopulation)
+        print "Saved"
     # Calculate fitness
+    # meanCase = 2*mean([genetics.cycleLength(p,distance) for p in population])
     fitnesses = [genetics.fitness(i,distance,meanCase) for i in population]
     # Sort population based on fitnesses (sort the shit out)
     fitnesses,population=zip(*sorted(zip(fitnesses,population),reverse=True))
+    population = list(population)
     nextgeneration = []
     for tt in range(popNo/2):
         # Pick parents
@@ -109,6 +110,7 @@ for t in range(time):
         if x < xmen: ch2 = genetics.SwapMutaton(ch2)
         nextgeneration.append(ch1)
         nextgeneration.append(ch2)
+    bestpopulation = sorted(bestpopulation + population,reverse=True)[0:popNo]
     population = nextgeneration
     # Look at the average fitness
     fitT.append(mean(fitnesses))
