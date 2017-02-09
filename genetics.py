@@ -27,7 +27,7 @@ def ScrambleMutation(item):
     "Mutation that shuffles randomly the genes."
     item=copy.deepcopy(item)
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(1,countryNo+1),2))#TODO not sure about countryNo+1
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
     shuffle_slice(item,start,end)
     return item
 
@@ -35,7 +35,7 @@ def InversionMutation(item):
     item=copy.deepcopy(item)
     "Mutation that inverses the gene sequence."
     countryNo = len(item)
-    [start,end] = sorted(random.sample(range(1,countryNo+1),2)) #TODO not sure about countryNo+1
+    [start,end] = sorted(random.sample(range(1,countryNo+1),2))
     item[start:end] = reversed(item[start:end])
     return item
 
@@ -50,7 +50,6 @@ def shuffle_slice(a, start, stop):
 def CrossoverOX1(p1,p2):
     countryNo=len(p1)
     "Applies so called Davis' Order Crossover OX1 for permutation based crossovers."
-    # TODO not sure if below shouldnt be 'countryNo+1'
     [start,end] = sorted(random.sample(range(1,countryNo),2))
     ch1 = [0]+[-1 for i in range(1,len(p1))]
     ch2 = [0]+[-1 for i in range(1,len(p1))]
