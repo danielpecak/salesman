@@ -19,6 +19,15 @@ def variance(list):
     s = [(x - mean)**2 for x in list]
     return sum(s)/len(s)
 
+def saveSnapshot(continent,popNo,xmen,t,population):
+    fname = "time-{}_P{}_X{}_T{}".format(continent,popNo/1000,xmen*1000,t/100)
+    f = open('snapshot/'+fname,'wb')
+    for p in population:
+        f.write(" ".join(map(str,p))+"\n")
+    f.close()
+    print fname
+
+
 ### System DEFAULT parameters:
 time   = 10**3  # number of generations
 popNo  = 10**3  # population size
@@ -72,6 +81,8 @@ tops = [] # TODO gather top 10 of all generations
 for t in range(time):
     if t%dt==0:
         print "Generation #"+str(t).rjust(4)+" out of "+str(time)+", prob:"+str(xmen).rjust(6)+", population:"+str(popNo).rjust(6)
+    if t%dsave==0:
+        saveSnapshot(continent,popNo,xmen,t,population)
     # Calculate fitness
     fitnesses = [genetics.fitness(i,distance,meanCase) for i in population]
     # Sort population based on fitnesses (sort the shit out)
