@@ -113,23 +113,23 @@ for t in range(time0,time0+time):
     bestpopulation = sorted(bestpopulation + population,reverse=True)[0:popNo]
     population = nextgeneration
     # Look at the average fitness
-    fitT.append(mean(fitnesses))
-    # TODO calculate also variance
+    totLength = [genetics.cycleLength(p,distance) for p in population]
+    fitT.append(mean(totLength))
+    varT.append(math.sqrt(variance(totLength)))
     # TODO save histogram
 
 ### Plot convergence
-plt.plot(range(1,1+time),[(meanCase-x)/1000 for x in fitT])
+plt.plot(range(1+time0,1+time+time0),[x/1000. for x in fitT],label="Mean")
+plt.plot(range(1+time0,1+time+time0),[x/1000. for x in varT],label="sigma")
 plt.ylabel('Path length [km]')
 minx = (meanCase-max(fitT))/1000-1
 maxx = (meanCase-min(fitT))/1000+1
-# plt.ylim([minx,maxx])
-# plt.plot(range(1,1+time),fitT)
-# plt.ylabel('Fitness')
 # TODO Save this data fitT
 # TODO For longer times save just every n-th (n=10 etc.) realization parametrs.
 plt.xlabel('Generation #')
+plt.legend()
 filename = '{}time{:0.2f}_Pop{:0.2f}_prob{:0.2f}'.format(continent,math.log10(time),math.log10(popNo), math.log10(xmen))
 plt.savefig('images/{:s}.png'.format(filename))
 print 'Saved in images/{:s}.png'.format(filename)
-for i in range(5):
-    mapLib.drawMap(population[i],continent,countries,fname=filename[:-4]+'MAP{}'.format(i+1))
+# for i in range(5):
+#     mapLib.drawMap(population[i],continent,countries,fname=filename[:-4]+'MAP{}'.format(i+1))
