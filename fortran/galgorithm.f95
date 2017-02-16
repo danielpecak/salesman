@@ -1,6 +1,8 @@
 program galgorithm
   use genetics
   use cities
+  use myio
+  use cmparser
   use slf_random
   implicit none
   real*8  :: x
@@ -18,11 +20,18 @@ program galgorithm
 
   ! Turn on a random number generator
   call random_init_urandom()
-  !!! System DEFAULT parameters:
-  ! TODO
 
   !!! Command line
-  ! TODO
+  call getArgInt('-pop',popNo)
+  call getArgInt('--population',popNo)
+  if (popNo < 1000) stop "Spawn more overlords (population should be greater than 1000)!"
+  call getArgInt('-t',time)
+  call getArgInt('--time',time)
+  if (time < 100) stop "Need more time! Use multplicity of 100 generations!"
+  call getargReal('-x',xmen)
+  call getargReal('-prob',xmen)
+  call getargReal('--probability',xmen)
+  if (xmen > 1.d-3) stop "Hey, Hulk! Need less radiation (less than 0.001 chance of mutation)!"
   !!! Load favourite places
   ! TODO
   ! Load SOUTH AMERICA
