@@ -9,7 +9,7 @@ all: $(BINS)
 
 random.o: interpol.o
 
-bin/%: cmparser.o random.o interpol.o myio.o genetics.o cities.o  %.o
+bin/%: cmparser.o random.o interpol.o genetics.o cities.o myio.o  %.o
 	mkdir -p bin
 	$(COMPILE.F) -o $@ $^
 
