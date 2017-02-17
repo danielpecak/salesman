@@ -15,9 +15,8 @@ program galgorithm
   integer  :: i,t,p,p1,p2, genNo
   integer  :: dt
   real*8   :: data(1:200)
-
-
   character(len=200) :: cPlace="", loadFile=""
+  logical :: file_exists
 
   ! Turn on a random number generator
   call random_init_urandom()
@@ -45,14 +44,20 @@ program galgorithm
   allocate(distances(genNo,genNo))
   call calcDistances(places,distances)
 
+
   !!! Set population & heuristics
   ! TODO
+  allocate(population(popNo)) !
+  call growPopulation(population,genNo)
   allocate(temppop(popNo)) ! auxilary population
   do i=1,popNo
     call group_create(temppop(i),genNo)
   enddo!i
-  allocate(population(popNo)) !
-  call growPopulation(population,genNo)
+
+  INQUIRE(FILE=trim(loadFile),EXIST=file_exists)
+  print *, trim(loadFile)
+  if (file_exists) call loadSnapshot('EU',popNo,xmen,time,population,population)
+
   do i=1,popNo
     call cycleLength(population(i),distances)
   enddo!i
