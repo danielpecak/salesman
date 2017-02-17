@@ -67,8 +67,5 @@ subroutine loadSnapshot(continent,popNo,xmen,t,population,bestpopulation)
   close(10)
 end subroutine loadSnapshot
 
-subroutine lastSnapshot()
-  print *, "Hello"
-end subroutine lastSnapshot
 
 end module myio
