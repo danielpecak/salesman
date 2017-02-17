@@ -17,6 +17,7 @@ program galgorithm
   real*8   :: data(1:200)
 
 
+  character(len=200) :: cPlace="", loadFile=""
 
   ! Turn on a random number generator
   call random_init_urandom()
@@ -32,6 +33,10 @@ program galgorithm
   call getargReal('-prob',xmen)
   call getargReal('--probability',xmen)
   if (xmen > 1.d-3) stop "Hey, Hulk! Need less radiation (less than 0.001 chance of mutation)!"
+  call getArgChar('-c',cPlace)
+  call getArgChar('--load',loadFile)
+
+
   !!! Load favourite places
   ! TODO
   ! Load SOUTH AMERICA

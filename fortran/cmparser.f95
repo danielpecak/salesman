@@ -37,6 +37,24 @@ contains
     end do
 endsubroutine getArgInt
 
+  subroutine getArgChar(tag,var)
+    character(len=*), intent(in)    :: tag
+    character(len=100)              :: temptag
+    character(len=100), intent(out) :: var
+    integer :: i
+    integer :: narg
+    narg=command_argument_count()
+
+    do i=1,narg
+      call get_command_argument(i,temptag)
+      if(trim(tag).eq.trim(temptag)) then
+        call get_command_argument(i+1,temptag)
+        read(temptag,'(A)') var
+        exit
+      endif
+    end do
+endsubroutine getArgChar
+
 subroutine getRange(range)
   real*8, pointer :: range(:)
   integer :: n
