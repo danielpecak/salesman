@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""This module writes coordinates in radians for different places to FORTRAN format. """
+
 import cities
 import sys
 

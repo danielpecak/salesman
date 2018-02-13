@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""This module covers loading data about cities/states and calculating distance between cities."""
+
 import csv
 import math
 inf = 10000000.

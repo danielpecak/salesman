@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+"""Module to manage Input and Output. This is important to save the evolution at some stage and load it later and continue."""
 from os import listdir
 
 def fnameSnapshot(continent,popNo,xmen,t,prefix=None):
-    "Makes the name of the snapshot to save."
+    """Makes the name of the snapshot to save."""
     return"{}_P{}_X{}_T{}".format(continent,popNo/1000.,xmen*1000.,t/100.)
 
 def saveSnapshot(continent,popNo,xmen,t,population,bestpopulation,prefix=None):
-    "Saves progess during the process."
+    """Saves progess during the process."""
     fname = fnameSnapshot(continent,popNo,xmen,t,prefix=None)
     f = open('snapshot/'+fname,'wb')
     for p in population:
@@ -17,7 +18,7 @@ def saveSnapshot(continent,popNo,xmen,t,population,bestpopulation,prefix=None):
     f.close()
 
 def loadSnapshot(fname,popNo):
-    "Loads a file with a dump at a given time (in the filename) and returns list of population and list of best examples."
+    """Loads a file saved at a given time (according to the filename) and returns list of population and list of best examples."""
     tab = []
     f = open('snapshot/'+fname,'rb')
     file = f.readlines()
@@ -29,7 +30,7 @@ def loadSnapshot(fname,popNo):
     return tab[0:popNo], tab[popNo:2*popNo], int(time0)
 
 def lastSnapshot(continent,popNo,xmen):
-    "Reads all snapshots and shows the last one."
+    """Reads all snapshots and shows the last one."""
     fname = fnameSnapshot(continent,popNo,xmen,1000) # time=1000 because it does not matter. not very elegant
     ldir = listdir('snapshot/')
     for f in sorted(ldir,reverse=True):
