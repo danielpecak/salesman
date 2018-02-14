@@ -5,7 +5,7 @@ from os import listdir
 
 def fnameSnapshot(continent,popNo,xmen,t,prefix=None):
     """Makes the name of the snapshot to save."""
-    return"{}_P{}_X{}_T{}".format(continent,popNo/1000.,xmen*1000.,t/100.)
+    return"{}{}_P{}_X{}_T{}".format(prefix,continent,popNo/1000.,xmen*1000.,t/100.)
 
 def saveSnapshot(continent,popNo,xmen,t,population,bestpopulation,prefix=None):
     """Saves progess during the process."""
