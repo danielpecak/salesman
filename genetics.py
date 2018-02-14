@@ -90,7 +90,10 @@ def fitness(ch,distance,shift):
     total = 0.
     for c in range(countryNo):
         total += distance[ch[c]][ch[(c+1)%countryNo]]
-    return shift - total
+    if shift - total < 0:
+        return 0
+    else:
+        return shift - total
 
 def cycleLength(ch,distance):
     """Function calculates the total length of the path given by a  chromosome 'ch'."""
