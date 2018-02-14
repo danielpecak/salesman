@@ -37,3 +37,13 @@ def lastSnapshot(continent,popNo,xmen):
         if fname.split('_T')[0] in f:
             return f
     return None
+
+
+def saveLog(filename):
+    """Saves logs of saving the process of evolution."""
+    # TODO get time (year-month-day hh:mm:ss)
+    # timestamp = ''
+    # TODO write logs in a form timestamp FILENAME
+    # f = open('logs.log','wb')
+    #   f.write(timestamp+filename+"\n")
+    # f.close()
