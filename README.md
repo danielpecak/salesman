@@ -18,6 +18,7 @@
 
 <h2>Technical details of the project</h2>
 <p>In this subsection, I will describe the theoretical background for the project and why I did things that I did.</p>
+
 <h3>Data</h3>
 <p>The data (the list of capitals with their coordinates) was obtained from the following sites:
   <ul>
@@ -26,24 +27,34 @@
   </ul>
   Latitudes and longitudes was transformed to radians for the convenience.
 </p>
+
 <h3>Chromosome</h3>
 <p>A chromosome is a set of properties of one realization &mdash; here a sequence of N capitals visited. There are as many possibilities as there are permutations. </p>
+
 <h3>Fitness function</h3>
 <p>Fitness function is a function that is optimized (maximized or minimized). For the TSP a natural choice is the total length of the path. If we choose our path in not a very clever way and would zig-zag back and forth, the total distance covered would be large. If we choose our path in a clever way, then the total distance would be smaller. Note, that our choice of a fitness function is not unique and we can obtain another fitness function for example by using a monotonic function of the total distance function.</p>
+
 <h3>Breeding</h3>
+
 <h4>Parent selection</h4>
 <p>The parents are selected with the so-called Roulette Wheel Selection method. Each chromosome has a chance to be selected proportional to its fitness. This way the best fitness, the higher chance to survive to the next generation.</p>
+
 <h4>Crossover</h4>
-<p>A very important mechanism of evolution is mixing the properties of parents which boosts the adaptation compared with just random mutations which are negative usually. There is not a unique way to mix two different permutations and produce a hybrid permutations. Here, the following method is implemented: Davis' Order Crossover (O1).</p>
+<p>A very important mechanism of evolution is mixing the properties of parents which boosts the adaptation when comparing it with mere random mutations which are usually negative. Negative mutations means that the new organism is not fit enough to survive and it dies. In the language of our problem a negative mutation path will be very long and will be canceled quickly. There is not a unique way to mix two different permutations and produce a hybrid permutations. Here, the following method is implemented: Davis' Order Crossover (O1).</p>
+<!-- TODO table/example that shows how crossover works  -->
+
 <h4>Mutation</h4>
 <p>After the crossover the chromosome mutates thrice with some probability p. The first mutation shuffles the genes in a chromosome. The second mutation inverses some (random) part of the chromosome. The last mutation swaps two random genes. Note, that the probability that a chromosome would have two above mutations is p*p and all three mutations: p*p*p. The typical value is of the order of p=0.001 which makes two and three different types of mutations very seldom. </p>
+<!-- TODO table/example that shows how mutation works  -->
+<!-- TODO table/example that shows how mutation works  -->
+<!-- TODO table/example that shows how mutation works  -->
 
 <h2>Plans</h2>
-<p>The plan is to write a prototype in <strong>Python</strong> which will be nice and easy and would work nicely for a whole not-too-big continent. Of course, the program will run much faster using <i>numpy</i> library, but I prototype in the simplest manner I can. I have in mind: </p>
+<p>The plan is to write a prototype in <strong>Python</strong> which will be nice and easy and would work nicely for a whole not-too-big continent.  If it comes to the set of destinations, I have in mind small or medium ones: </p>
 <ul>
   <li>South America (12 countries)</li>
   <li>Australia&Oceania (14 countries)</li>
   <li>maybe North America (23 countries).</li>
 </ul>
-<p>After playing with different schemes and parameters, studying scaling and converging I would like to rewrite code in <strong>Fortran</strong> and check how much faster it is. And run the code for the whole world (about 240 countries), capital cities of the US or some other set. At this point the program</p>
-<p>When I will still not be bored, then I would like to play with parallelization (MPI, CUDA).</p>
+<p>After playing with different schemes and parameters, studying scaling and converging I would like to rewrite this code in <strong>Fortran</strong> and check how much faster it is. And run the code for the whole world (about 240 countries), capital cities of the US or some other set.</p>
+<p>Of course, the program will run much faster using <i>numpy</i> library, but I prototype in the simplest manner I can. Maybe at some point i rewrite it. When I will still not be bored, then I would like to play with parallelization (MPI, CUDA).</p>
