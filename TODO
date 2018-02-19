@@ -1,3 +1,24 @@
+* zaczynaj zawsze z tego samego miasta (eliminacja przesunięć cyklu)
+
+* rysowanie po mapie SVG
+DONE  * zmniejszenie czcionki
+  * zrobienie tak, żeby nazwy stolic na siebie nie nachodziły
+
+* popraw losowanie (ujemne)
+
+## Read&Write
+* zapisywanie stanów
+* odczytywanie stanów
+* zapisywanie do pliku LOG
+* zapisywanie fitness VS time
+* puszczenie mniejszych spisów miejsc
+
+#### Sometime...
+* numpy
+* MPI
+* CUDA
+
+
 DONE * skrypt do przeliczenia koordynatów na odległości
 DONE * wybrać amerykę południową
 DONE * losowanie permutacji (wybieranie po jednym elemencie ze zbioru)
@@ -8,11 +29,3 @@ DONE * fitness function
 DONE * parent selection
 DONE * crossover
 DONE * mutation
-
-* zaczynaj zawsze z tego samego miasta (eliminacja przesunięć cyklu)
-
-* rysowanie po mapie SVG
-DONE  * zmniejszenie czcionki
-  * zrobienie tak, żeby nazwy stolic na siebie nie nachodziły
-
-* popraw losowanie (ujemne)
