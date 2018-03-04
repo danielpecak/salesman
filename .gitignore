@@ -6,6 +6,7 @@ __pycache__/
 # My own
 snapshot/
 images/
+data/
 temp/
 test.py
 
