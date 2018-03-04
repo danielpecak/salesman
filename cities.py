@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""This module covers loading data about cities/states and calculating distance between cities."""
+"""This module covers loading coords/ about cities/states and calculating distance between cities."""
 
 import csv
 import math
@@ -12,7 +12,7 @@ inf = 10000000.
 def loadStates():
     """Load the list of the US states from a file which has the structure: row=(0-State; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)."""
     states = []
-    with open('data/states.csv','rb') as file:
+    with open('coords/states.csv','rb') as file:
         reader = csv.reader(file,delimiter=';')
         for row in reader:
             states.append(row[0:2]+map(float,row[2:]))
@@ -22,7 +22,7 @@ def loadStates():
 def loadCountries(continent):
     """Load the list of countres from a file which has the structure:
 row=(0-Country; 1-Capital; 2-LatitudeDEG; 3-LongitudeDEG; 4-LatitudeRAD; 5-LongitudeRAD)."""
-    code = {'SA':'data/south-america.csv','NA':'data/north-america.csv', 'EU':'data/europa.csv', 'AS':'data/asia.csv', 'AF':'data/africa.csv', 'AO':'data/oceania.csv', 'ALL':'data/world.csv'}
+    code = {'SA':'coords/south-america.csv','NA':'coords/north-america.csv', 'EU':'coords/europa.csv', 'AS':'coords/asia.csv', 'AF':'coords/africa.csv', 'AO':'coords/oceania.csv', 'ALL':'coords/world.csv'}
     fname = code[continent]
     countries = []
     with open(fname,'rb') as file:
