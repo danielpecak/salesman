@@ -49,6 +49,8 @@ def drawMap(chromosome,continent,countries,fname=None):
     map.drawcountries()
     caplon = [x[3] for x in countries]
     caplat = [x[2] for x in countries]
+    caplonDX = [x[7]+x[3] for x in countries]
+    caplatDX = [x[6]+x[2] for x in countries]
     labels = [unicode(x[1],'utf-8') for x in countries]
     # TODO make maps prettier: better colors etc.
     map.fillcontinents(color = 'coral')
@@ -61,8 +63,9 @@ def drawMap(chromosome,continent,countries,fname=None):
     x,y = map(caplon,caplat)
     map.plot(x,y, 'bo', markersize=2)
     # Write city names
+    x,y = map(caplonDX,caplatDX)
     for label, xpt, ypt in zip(labels,x,y):
-        plt.text(xpt,ypt,label,fontsize=4)
+        plt.text(xpt,ypt,label,fontsize=8)
     if fname==None:
         fname = str(int(time.time()))
     plt.savefig('images/'+fname+'.svg', bbox_inches='tight')
