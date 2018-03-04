@@ -28,9 +28,10 @@ bestpopulation = simplify(bestpopulation)
 population = simplify(population)
 countries = cities.loadCountries(continent)
 
-# for i in countries:
-#     print i
 distance = cities.calcDistances(countries)
+bestpopulation = sorted(bestpopulation + population,reverse=True)
+fitnesses = [genetics.cycleLength(p,distance) for p in bestpopulation]
+fitnesses,population=zip(*sorted(zip(fitnesses,population),reverse=False))
 
 for i in xrange(3):
     print genetics.cycleLength(bestpopulation[i],distance)
