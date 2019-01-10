@@ -21,6 +21,17 @@ subroutine group_create(A,genNo)
   A%age = 0
 end subroutine group_create
 
+subroutine spin_me_round(item)
+  type(group)  :: item
+  integer :: genNo
+  integer :: i
+  genNo=size(item%chromosome,1)
+  i=minloc(item%chromosome, dim=1)
+  item%chromosome=cshift(item%chromosome,i-1)
+end subroutine spin_me_round
+
+
+
 recursive subroutine QSort(A,nA)
 ! Type GROUP has been gneralized for purposes of my program, but it's from:
 ! http://rosettacode.org/wiki/Sorting_algorithms/Quicksort#Fortran
