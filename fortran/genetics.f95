@@ -1,6 +1,6 @@
 module genetics
 implicit none
-real*8, parameter :: inf = 1000000000.d0
+! real*8, parameter :: inf = 1000000000.d0
 
 type group
   real*8  :: fitness  ! values to be sorted by
