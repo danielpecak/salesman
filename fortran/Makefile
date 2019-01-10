@@ -1,6 +1,6 @@
 FC = f95
 INCLUDE	 	 = -I.
-FFLAGS	 	 = -O3 -march=native -fbounds-check -g -Wall -Wextra
+FFLAGS	 	 = -O3 -march=native -fbounds-check -g -Wall -Wextra -fopenmp
 COMPILE.F  = $(FC) $(INCLUDE) $(FFLAGS)
 
 BINS =  bin/galgorithm bin/test
