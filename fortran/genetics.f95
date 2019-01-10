@@ -279,4 +279,48 @@ subroutine growPopulation(population,genNo)
   enddo!i
 end subroutine growPopulation
 
+subroutine getHeuristicSolutions(heuristicPop,distance)
+  ! Get COUNTRYNO number of heuristicly found chromosome (COUNTRYNO long each)  which is usually moderately good. It uses table of distances DISTANCE.
+  ! The reasonably good solutions are found by a greedy algorithm startng from a city and going straight to the closest.
+  use cities
+  type(group), intent(inout) :: heuristicPop(:)
+  real*8,  intent(inout)    :: distance(:,:)
+  real*8,  allocatable      :: distance2(:,:)
+  integer :: genNo, popNo, i, j, l
+  integer :: id, oldid
+  real*8  :: r
+  genNo=size(distance,1)
+  popNo=size(heuristicPop,1)
+  print *, genNo, popNo
+  if(popNo<genNo) stop "Error (genetics: getHeuristicSolutions): You should have population larger than number of cities."
+  allocate(distance2(genNo,genNo))
+
+  ! Start clever...
+  do  l = 1,genNo
+    distance2=distance
+    id = l
+    r = 0.d0
+    heuristicPop(l)%chromosome(1)=id
+    do i=1,genNo-1
+      r = r + minval(distance2(id,:))
+      oldid=id
+      id=minloc(distance2(id,:),dim=1)
+      heuristicPop(l)%chromosome(i+1)=id
+      distance2(oldid,:)=inf
+      distance2(:,oldid)=inf
+    enddo
+    r = r + distance(l,id)
+    heuristicPop(l)%chromosome(genNo)=id
+    call spin_me_round(heuristicPop(l))
+    call cycleLength(heuristicPop(l),distance)
+  enddo!l
+  ! ...shuffle good items
+  do l=genNo+1,popNo
+    heuristicPop(l)%chromosome(1)=1
+    heuristicPop(l)%chromosome(2:genNo)=heuristicPop(mod(l,genNo-1)+1)%chromosome(2:genNo)
+    call spin_me_round(heuristicPop(l))
+    call cycleLength(heuristicPop(l),distance)
+  enddo!l
+end subroutine getHeuristicSolutions
+
 end module genetics
