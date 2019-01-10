@@ -3,7 +3,7 @@ INCLUDE	 	 = -I.
 FFLAGS	 	 = -O3 -march=native -fbounds-check -g -Wall -Wextra
 COMPILE.F  = $(FC) $(INCLUDE) $(FFLAGS)
 
-BINS =  bin/galgorithm
+BINS =  bin/galgorithm bin/test
 
 all: $(BINS)
 
