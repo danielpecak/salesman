@@ -90,6 +90,52 @@ function isElIn(item,list) result(is)
   end do
 end function isElIn
 
+function isItemInPop(item,list) result(is)
+  type(group), intent(in) :: list(:), item
+  integer :: i,j
+  logical :: is
+  if(size(item%chromosome,1).ne.size(list(1)%chromosome,1)) stop "Error: genetics: amIunique: length of chromosome does not match"
+  loopi:do i=1,size(list)
+    is=.false.
+    do j=1,size(list(i)%chromosome,1)
+      if (list(i)%chromosome(j).ne.item%chromosome(j)) then
+        cycle loopi
+      endif
+    end do!j
+    is=.true.
+    return
+  end do loopi!i
+end function isItemInPop
+
+recursive function isItemInPopBinary(item,list) result(gdzie)
+  type(group), intent(in) :: list(:), item
+  integer :: mid,id, gdzie
+  ! if(size(item%chromosome,1).ne.size(list(1)%chromosome,1)) stop "Error: genetics: amIunique: length of chromosome does not match"
+
+  mid = size(list,1)/2+1
+  if(abs(item%fitness-list(mid)%fitness)<1d-2) then
+    id=0
+  else if(item%fitness<list(mid)%fitness) then
+    id=-1
+  else
+    id=1
+  endif
+  print *, mid, id, size(list,1)
+  if(size(list,1)==0) then
+    gdzie = 0 !not found
+  else if (id==1) then
+    gdzie = isItemInPopBinary(item,list(:mid-1))
+  else if (id==-1) then
+    gdzie = isItemInPopBinary(item,list(mid+1:))
+    if(gdzie /= 0) then
+      gdzie = mid + gdzie
+    endif
+  else
+    gdzie = mid ! SUCCESS
+  endif
+
+end function isItemInPopBinary
+
 
 function mean(list) result(m)
 real*8, intent(in) :: list(:)
@@ -291,7 +337,7 @@ subroutine getHeuristicSolutions(heuristicPop,distance)
   real*8  :: r
   genNo=size(distance,1)
   popNo=size(heuristicPop,1)
-  print *, genNo, popNo
+  ! print *, genNo, popNo
   if(popNo<genNo) stop "Error (genetics: getHeuristicSolutions): You should have population larger than number of cities."
   allocate(distance2(genNo,genNo))
 
@@ -318,6 +364,7 @@ subroutine getHeuristicSolutions(heuristicPop,distance)
   do l=genNo+1,popNo
     heuristicPop(l)%chromosome(1)=1
     heuristicPop(l)%chromosome(2:genNo)=heuristicPop(mod(l,genNo-1)+1)%chromosome(2:genNo)
+    !TODO shuffling
     call spin_me_round(heuristicPop(l))
     call cycleLength(heuristicPop(l),distance)
   enddo!l

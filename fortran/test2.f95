@@ -1,4 +1,4 @@
-program galgorithm
+program test2
   use genetics
   use cities
   use myio
@@ -9,7 +9,7 @@ program galgorithm
   real*8, allocatable  ::  places(:,:), distances(:,:)
   type(group), allocatable  :: population(:), bestpopulation(:), temppop(:)
   integer :: time  = 1000,&
-             popNo = 1000
+  popNo = 1000
   real*8  :: xmen = 0.0001d0
   real*8  :: meanCase
   integer  :: i,t,p,p1,p2, genNo
@@ -21,19 +21,6 @@ program galgorithm
   ! Turn on a random number generator
   call random_init_urandom()
 
-  !!! Command line
-  call getArgInt('-pop',popNo)
-  call getArgInt('--population',popNo)
-  if (popNo < 1000) stop "Spawn more overlords (population should be greater than 1000)!"
-  call getArgInt('-t',time)
-  call getArgInt('--time',time)
-  if (time < 100) stop "Need more time! Use multplicity of 100 generations!"
-  call getargReal('-x',xmen)
-  call getargReal('-prob',xmen)
-  call getargReal('--probability',xmen)
-  if (xmen > 1.d-3) stop "Hey, Hulk! Need less radiation (less than 0.001 chance of mutation)!"
-  call getArgChar('-c',cPlace)
-  call getArgChar('--load',loadFile)
 
 
   !!! Load favourite places
@@ -67,7 +54,7 @@ program galgorithm
   dt = time/size(data)
 
 
-!!!!! MAIN LOOP OF THE PROGRAM
+  !!!!! MAIN LOOP OF THE PROGRAM
   !!! Fitness Base Selection
   ! TODO
   do t=1,time
@@ -103,14 +90,14 @@ program galgorithm
     endif
     if(mod(t,dt)==0) then
       open(1,file='time.dat',action='write',access='append')
-        write(1,*) t, meanCase - mean(population(:)%fitness), variance(population(:)%fitness)
+      write(1,*) t, meanCase - mean(population(:)%fitness), variance(population(:)%fitness)
       close(1)
     endif
   enddo!t
   !!! Save data
   ! TODO
-  do i=1,popNo
+  do i=1,10
     print "(52(I3))", population(i)%chromosome
   enddo
 
-end program galgorithm
+end program test2

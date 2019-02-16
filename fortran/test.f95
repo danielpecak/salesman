@@ -9,6 +9,7 @@ real*8  :: x,y
 ! integer  :: v(1:N) = (/1,2,3,4,5,6,7,8,9,0/)
 ! integer  :: w(1:N) = (/1,2,3,4,5,6,7,8,9,0/)
 integer  :: i,j,k
+type(group) :: item1, item2
 ! integer  :: pop(5,10)
 type(group), allocatable :: pop(:)
 real*8, allocatable  ::  places(:,:), distances(:,:)
@@ -22,16 +23,42 @@ call calcDistances(places,distances)
 allocate(pop(popNo))
 do i=1,popNo
   call group_create(pop(i),genNo)
-  print "(13I3)", pop(i)%chromosome
+  ! print "(13I3)", pop(i)%chromosome
 enddo
 
 call getHeuristicSolutions(pop,distances)
 call QSort(pop,popNo)
 do i=1,popNo
-  print "(13I3,F10.1,I3)", pop(i)%chromosome, pop(i)%fitness, pop(i)%age
+  ! print "(13I3,F10.1,I3)", pop(i)%chromosome, pop(i)%fitness, pop(i)%age
 enddo
 
+deallocate(pop)
+popNo=20
+allocate(pop(popNo))
+do i=1,popNo
+  call group_create(pop(i),genNo)
+  ! print "(13I3)", pop(i)%chromosome
+enddo
+call getHeuristicSolutions(pop,distances)
+call QSort(pop,popNo)
+do i=1,popNo
+  print "(13I3,F10.1,I3,A,I3)", pop(i)%chromosome, pop(i)%fitness,  pop(i)%age, "|||", i
+enddo
 
+print *, "item1, item2 definition"
+call group_create(item1,genNo)
+call group_create(item2,genNo)
+item2%chromosome=pop(1)%chromosome
+call cycleLength(item1,distances)
+call cycleLength(item2,distances)
+print *, "item1, item2 are:"
+print "(13I3,F10.1,I3)", item1%chromosome, item1%fitness, item1%age
+print "(13I3,F10.1,I3)", item2%chromosome, item2%fitness, item2%age
+
+print *, "item1, item2 in population???"
+print *, isItemInPop(item1,pop), isItemInPop(item2,pop)
+print *, "item1, item2 in population??? (binary search)"
+print *, isItemInPopBinary(item1,pop)!, isItemInPopBinary(item2,pop)
 
 ! print *, "genNo: ", genNo
 ! print *, inf

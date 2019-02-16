@@ -7,8 +7,8 @@ DONE  * zmniejszenie czcionki
 * popraw losowanie (ujemne)
 
 ## Read&Write
-* zapisywanie stanów
-* odczytywanie stanów
+DONE * zapisywanie stanów
+DONE * odczytywanie stanów
 * zapisywanie do pliku LOG
 * zapisywanie fitness VS time
 * puszczenie mniejszych spisów miejsc
