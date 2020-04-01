@@ -10,15 +10,16 @@ program galgorithm
   real*8, allocatable  ::      places(:,:), distances(:,:)
   character(len=256)   :: filenameTime
   character(len=256)   :: filenameDat
-  character(len=128)   :: format
+  character(len=64)   :: format, prefix
   integer :: time  = 1000,&
              popNo = 1000
   real*8  :: xmen  = 0.001d0
   logical :: flag_new = .false., file_exists
   real*8  :: meanCase
   integer  :: i,t,p,p1,p2, genNo
-  integer  :: dt, time0, IOS
+  integer  :: dt, time0, IOS, tstep
   real*8   :: data(1:200)
+  
 
 
 
@@ -44,7 +45,8 @@ program galgorithm
   ! Choose from: af.f  all.f  ao.f  as.f  eu.f  na.f  sa.f
   ! Africa, World, Australia&Oceania, Asia, Europe, North America, South America
   ! Load SOUTH AMERICA
-  include 'data/sa.f'
+  include 'data/na.f'
+  prefix = "NA"
   genNo = size(places,2)
   write(format,"(A,I3,A)") "(", genNo,"I4,I6,F12.4)"
   allocate(distances(genNo,genNo))
@@ -65,7 +67,12 @@ program galgorithm
   ! TODO
 
   ! Setting up files
-  write(filenameTime,"(A,I0.6,A,F4.2,A)") 'output/time_P', popNo, '_X',xmen, '.txt'
+  write(prefix,"(A,A,I0.6,A,F4.2)") trim(prefix),'_P', popNo, '_X', xmen
+  write(filenameTime,"(A,A,A,I0.6,A,F4.2,A)") 'output/time_',trim(prefix), '.txt'
+
+
+
+  
   print "(A,A)","# Writing to: ",trim(filenameTime)
   INQUIRE(FILE=trim(filenameTime), EXIST=file_exists)
   if((.not.file_exists).or.(flag_new)) then 
@@ -82,7 +89,7 @@ program galgorithm
       end do
       print "(A, I8)", "# Time0 read from the file: ",time0
       close(1)
-      write(filenameDat,"(A,I0.6,A,F4.2,A,I0.6,A)") 'output/configuration_P', popNo, '_X',xmen, '_T', time0, '.dat'
+      write(filenameDat,"(A,A,A,I0.6,A)") 'output/configuration_', trim(prefix), '_T', time0, '.dat'
       open(1,file=trim(filenameDat),status='OLD')
       do p=1,popNo
         read(1,trim(format)) population(p)%chromosome(:), population(p)%age, population(p)%fitness
@@ -99,14 +106,16 @@ do p=1,10
   print trim(format), population(p)%chromosome(:), population(p)%age, population(p)%fitness
 enddo
 
-! stop
 
   ! DATA
   dt = time/size(data)
   if(time<size(data)) dt = 1
   dt = 5
+  tstep = max((time*popNo)/10**6,time/100)
+  print *, tstep
   do t=time0+1,time0+time
-    if (mod(t,time/10)==0) print "(A,I8,A,I8)", "# Generation NO",t," out of",time+time0
+    ! TODO print output not every 10% but
+    if (mod(t-time0,tstep)==0) print "(A,I8,A,I8,F8.2,A)", "# Generation NO",t," out of",time+time0, float((t-time0)*100)/time, "%"
     do p=1,popNo
       call calcFitness(population(p),distances,meanCase)
     enddo!p
@@ -145,8 +154,7 @@ enddo
   enddo!t
   
   !!! Save data
-  ! TODO
-  write(filenameDat,"(A,I0.6,A,F4.2,A,I0.6,A)") 'output/configuration_P', popNo, '_X',xmen, '_T', time0+time, '.dat'
+  write(filenameDat,"(A,A,A,I0.6,A)") 'output/configuration_', trim(prefix), '_T', time0+time, '.dat'
   print "(A)", "# Calculation finished. Last configuration is saved to: ", trim(filenameDat)
   open(1,file=trim(filenameDat),action='write',status='replace')
   do p=1,popNo
