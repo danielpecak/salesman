@@ -1,4 +1,5 @@
 program galgorithm
+  use OMP_LIB
   use genetics
   use helpers
   use cities
@@ -110,6 +111,8 @@ enddo
       call calcFitness(population(p),distances,meanCase)
     enddo!p
     call QSort(population,popNo)
+    !$OMP PARALLEL PRIVATE(p,x)
+    !$OMP DO
     do p=1,popNo/2
       ! Pick parents
       call rouletteWheelSelection(population(:)%fitness,p1)
@@ -128,6 +131,8 @@ enddo
       temppop(p)%age = population(p)%age
       temppop(p+popNo/2)%age = population(p+popNo/2)%age
     enddo!p
+    !$OMP END DO
+    !$OMP END PARALLEL
     ! Copy temp population
     do p=1,popNo
       population(p)%chromosome = temppop(p)%chromosome
