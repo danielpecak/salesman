@@ -1,6 +1,7 @@
 module cities
+  use helpers
 implicit none
-real*8, parameter :: inf = 1.d12
+! real*8, parameter :: inf = 1.d12 NOTE already in HELPERS
 contains
 
 subroutine calcDistances(places,distances)

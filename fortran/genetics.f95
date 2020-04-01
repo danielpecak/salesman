@@ -1,8 +1,10 @@
 module genetics
+  ! use helpers
 implicit none
-real*8, parameter :: inf = 1000000000.d0
+! real*8, parameter :: inf = 1000000000.d0 NOTE already in HELPERS
 
 type group
+  ! Type that containes a table of chromosomes with its fitness and age
   real*8  :: fitness  ! values to be sorted by
   integer :: age
   integer, pointer :: chromosome(:)
@@ -13,6 +15,7 @@ contains
 ! ####    AUXILIARY FUNCTIONS    ####
 ! ###################################
 subroutine group_create(A,genNo)
+  ! Creates an object GROUP with genNo number of genes
   type(group)  :: A
   integer, intent(in)  :: genNo
   integer :: i
@@ -22,6 +25,7 @@ subroutine group_create(A,genNo)
 end subroutine group_create
 
 recursive subroutine QSort(A,nA)
+! QuickSort implemented for sorting type GROUP by fitness parameter
 ! Type GROUP has been gneralized for purposes of my program, but it's from:
 ! http://rosettacode.org/wiki/Sorting_algorithms/Quicksort#Fortran
   integer, intent(in) :: nA
@@ -68,6 +72,8 @@ end subroutine QSort
 
 
 function isElIn(item,list) result(is)
+  ! Checks if ITEM is in LIST
+  ! Returns TRUE if it is, otherwise FALSE
   integer, intent(in) :: list(:), item
   integer :: i
   logical :: is
@@ -81,12 +87,14 @@ end function isElIn
 
 
 function mean(list) result(m)
-real*8, intent(in) :: list(:)
-real*8 :: m
-m = sum(list)/size(list)
+  ! Calculates and returns the mean value M of a given LIST
+  real*8, intent(in) :: list(:)
+  real*8 :: m
+  m = sum(list)/size(list)
 end function
 
 function variance(list) result(s)
+  ! Calculates and returns the variance S of a given LIST
   real*8, intent(in) :: list(:)
   real*8 :: m, s
   m = sum(list)/size(list)
@@ -95,6 +103,8 @@ function variance(list) result(s)
 end function variance
 
 subroutine shuffle(a)
+  ! Function shuffles array A randomly
+  ! Based on:
   ! http://rosettacode.org/wiki/Knuth_shuffle#Fortran
   integer, intent(inout) :: a(:)
   integer :: i, randpos, temp
@@ -109,6 +119,8 @@ subroutine shuffle(a)
 end subroutine shuffle
 
 subroutine pick_range(from,to,start,finish)
+  ! Picks randomly subrange (start,finish) within range (from, to)
+  ! NOTE START number is not included
   ! Modified version of:
   ! http://rosettacode.org/wiki/Pick_random_element#Fortran
   integer, intent(in)  :: from, to
@@ -145,7 +157,7 @@ subroutine ScrambleMutation(item)
   integer, intent(inout) :: item(:)
   integer :: len, start,finish
   len = size(item,1)
-  call pick_range(2,len,start,finish)
+  call pick_range(1,len,start,finish)
   call shuffle(item(start:finish))
 end subroutine ScrambleMutation
 
@@ -154,7 +166,7 @@ subroutine InversionMutation(item)
   integer, intent(inout) :: item(:)
   integer :: len, start,finish , i, temp
   len = size(item,1)
-  call pick_range(2,len,start,finish)
+  call pick_range(1,len,start,finish)
   ! Inverse given range of genes
   do i=start,(finish+start-1)/2
     temp = item(i)
@@ -170,7 +182,7 @@ subroutine CrossoverOX1(p1,p2,ch1,ch2)
   integer, intent(out) :: ch1(:), ch2(:)
   integer :: len, start, finish, i, j
   len = size(ch1)
-  call pick_range(2,len,start,finish)
+  call pick_range(1,len,start,finish)
   ch1 = -1
   ch2 = -1
   ch1(1) = 1
@@ -226,7 +238,7 @@ subroutine rouletteWheelSelection(fitnesses,p1)
 end subroutine rouletteWheelSelection
 
 !### Fitness function
-subroutine fitness(population,distance,shift)
+subroutine calcFitness(population,distance,shift)
   ! Function calculates the fitness of a chromosome 'item'
   type(group), intent(inout) :: population
   real*8,  intent(in)  :: distance(:,:), shift
@@ -237,7 +249,7 @@ subroutine fitness(population,distance,shift)
     population%fitness = population%fitness + distance(population%chromosome(i),population%chromosome(mod(i,genNo)+1))
   end do!i
   population%fitness = shift - population%fitness
-end subroutine fitness
+end subroutine calcFitness
 
 
 subroutine cycleLength(population,distance)
@@ -256,7 +268,7 @@ end subroutine cycleLength
 ! ######   POPULATION SCALE    ######
 ! ###################################
 subroutine growPopulation(population,genNo)
-!  Grow population of P individuals, everyone with G genes.
+!  Grow population of POPNO individuals, everyone with GENNO genes.
   type(group), intent(inout) :: population(:)
   integer, intent(in)  :: genNo
   integer  :: popNo
